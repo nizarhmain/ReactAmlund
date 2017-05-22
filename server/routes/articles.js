@@ -1,0 +1,172 @@
+const express = require('express');
+const router = express.Router();
+const passport = require('passport');
+const Article = require('../models/article');
+const User = require('../models/user');
+const config = require('../config/database');
+
+// create an article
+router.post('/post', passport.authenticate('jwt', {session: false}), function(req,res,next){
+    
+    var article = req.body;
+    if (article.title == null || article.content == null) {
+		return res.sendStatus(400);
+	}
+    // if everything goes well server side validation, initialize the article variable
+    let newArticle = new Article({
+        title: req.body.title,
+        is_published: req.body.is_published,
+        content: req.body.content,
+    });
+
+    Article.AddArticle(newArticle, function(err, article){
+        if(err){
+            res.json({success: false, msg: 'failed to post the article'});
+        } else {
+            res.json({success: true, msg: 'article registered'});
+        }
+    });
+});
+
+//get all the articles
+router.get('/all', function(req, res, next){
+    var query = Article.find();
+    query.sort('-created');
+    query.exec(function(err, results){
+        if(err) throw err;
+        for(var articleKey in results){
+            results[articleKey].content = results[articleKey].content.substr(0,400);
+        }
+        return res.status(200).json(results);
+    });
+});
+
+// get the published articles 
+router.get('/published', function(req, res,next){
+    var query = Article.find({is_published: true});
+    query.sort('-created');
+    query.exec(function(err, results){
+        if(err) throw err;
+        for(var articleKey in results){
+            results[articleKey].content = results[articleKey].content.substr(0,400);
+        }
+        return res.status(200).json(results);
+    });
+});
+
+// get article by id and read it 
+router.get('/post/:id', function(req,res){
+    var id = req.params.id || '';
+    if(id == ''){
+        return res.sendStatus(400);
+    }
+    var query = Article.findOne({_id: id, is_published: true});
+    query.exec(function(err, result){
+        if(err) throw err;
+        if(result != null){
+            result.update({ $inc: {read: 1}}, function(err, nbRows, raw){
+                return res.status(200).json(result);
+            });
+        } else {
+            return res.sendStatus(400);
+        }
+    });
+});
+
+//the id in question is sent in the body request, for liking an article
+router.post('/post/like', function(req,res){
+    var id = req.body.id || '';
+    if(id == ''){
+        return res.sendStatus(400);
+    }
+    Article.update({_id:id}, { $inc: {likes:1}}, function(err,nbRows,raw){
+        if(err) throw err;
+        return res.sendStatus(200);
+    });
+});
+
+router.post('/post/unlike', function(req,res){
+    var id = req.body.id || '';
+    if(id == ''){
+        return res.sendStatus(400);
+    }
+    Article.update({_id:id}, { $inc: {likes:-1}}, function(err,nbRows,raw){
+        if(err) throw err;
+        return res.sendStatus(200);
+    });
+});
+
+// editing a post
+router.put('/post/update',passport.authenticate('jwt', {session: false}), function(req,res){
+    var article = req.body;
+    if(article == null || article._id == null){
+        res.sendStatus(200);
+    } else {
+
+    var updatedArticle = {};
+    if(article.title != null && article.title != ""){
+        updatedArticle.title = article.title;
+    }
+    if(article.is_published != null){
+        updatedArticle.is_published = article.is_published;
+    }
+    if(article.content != null && article.content != ""){
+        updatedArticle.content = article.content;
+    }
+    updatedArticle.updated = new Date();
+    Article.update({_id: article._id}, updatedArticle, function(err,nbRows, raw){
+    if(err){
+            res.json({success: false, msg: 'failed to update the article'});
+        } else {
+            res.json({success: true, msg: 'article registered'});
+        }
+    });
+  }
+
+});
+
+//quick publish an article
+router.put('/post/publish/:id', passport.authenticate('jwt', {session: false}), function(req, res){
+    var id = req.params.id;
+    if(id == null || id == ''){
+        res.sendStatus(400);
+    }
+    Article.update({_id: id}, {$set: {is_published:"true"}}, function(err, result){
+        return res.sendStatus(200);
+    });
+});
+
+router.put('/post/hide/:id', passport.authenticate('jwt', {session: false}), function(req, res){
+    var id = req.params.id;
+    if(id == null || id == ''){
+        res.sendStatus(400);
+    }
+    Article.update({_id: id}, {$set: {is_published:"false"}}, function(err, result){
+        if(err) throw err;
+        return res.sendStatus(200);
+    });
+});
+
+router.delete('/post/:id', passport.authenticate('jwt', {session: false}), function(req, res){
+    var id = req.params.id;
+    if(id == null || id == ''){
+        res.sendStatus(400);
+    }
+
+    var query = Article.findOne({_id: id});
+    query.exec(function(err, result){
+        if(err){
+            console.log(err);
+            return res.sendStatus(400);
+        }
+        if(result != null) {
+            result.remove();
+            return res.sendStatus(200);
+        } else {
+            return res.sendStatus(400);
+        }
+    })
+});
+
+
+module.exports = router;

@@ -1,0 +1,31 @@
+{
+  "name": "biologi",
+  "version": "1.0.0",
+  "description": "biologi website crud mean stack ",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app"
+  },
+  "dependencies": {
+    "express" : "4.15.2",
+    "mongoose" : "4.9.5", 
+    "bcryptjs" : "2.4.3",
+    "cors" : "2.8.3",
+    "jsonwebtoken": "7.3.0",
+    "body-parser": "1.17.1",
+    "passport" : "0.3.2",
+    "passport-jwt" : "2.2.1",
+    "nodemon" : "1.11.0" 
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nizarhmain/Biologidk.git"
+  },
+  "author": "Nizar Hmain",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nizarhmain/Biologidk/issues"
+  },
+  "homepage": "https://github.com/nizarhmain/Biologidk#readme"
+}
