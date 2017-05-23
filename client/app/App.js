@@ -3,17 +3,18 @@ var ReactDOM = require('react-dom');
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import AppLayout from './AppLayout';
+import {Provider} from 'react-redux';
+import thunk from 'redux-thunk';
+import { createStore, applyMiddleware } from 'redux';
 
-import {
-  BrowserRouter as Router,
-  Route,
-  Link
-} from 'react-router-dom';
+
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
 
 
 import  {cyan500, cyan700,
-  pinkA200,
+  pinkA200, purple300, grey50,
+
   grey100, grey300, grey400, grey500,
   white, darkBlack, fullBlack, limeA400, teal500 } from 'material-ui/styles/colors';
 
@@ -22,10 +23,16 @@ require('./index.css');
 
 const muiTheme = getMuiTheme({
   palette: {
-    primary1Color: teal500,
+    primary1Color: cyan500,
     textColor: darkBlack,
   },
 });
+
+const store = createStore(
+    (state = {}) => state,
+    applyMiddleware(thunk)
+  );
+
 
 
 // injection of tap even for material ui 
@@ -47,7 +54,10 @@ class App extends React.Component {
 }
 
 ReactDOM.render(
+  // redux provider store
+    <Provider store = { store }>
       <App />
+    </Provider>
     ,
   document.getElementById('app')
 )

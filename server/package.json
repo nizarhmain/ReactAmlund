@@ -8,15 +8,17 @@
     "start": "nodemon app"
   },
   "dependencies": {
-    "express" : "4.15.2",
-    "mongoose" : "4.9.5", 
-    "bcryptjs" : "2.4.3",
-    "cors" : "2.8.3",
-    "jsonwebtoken": "7.3.0",
+    "bcryptjs": "2.4.3",
     "body-parser": "1.17.1",
-    "passport" : "0.3.2",
-    "passport-jwt" : "2.2.1",
-    "nodemon" : "1.11.0" 
+    "cors": "2.8.3",
+    "express": "4.15.2",
+    "jsonwebtoken": "7.3.0",
+    "lodash": "^4.17.4",
+    "mongoose": "4.9.5",
+    "nodemon": "1.11.0",
+    "passport": "0.3.2",
+    "passport-jwt": "2.2.1",
+    "validator": "^7.0.0"
   },
   "repository": {
     "type": "git",

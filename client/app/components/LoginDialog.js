@@ -5,6 +5,9 @@ import RaisedButton from 'material-ui/RaisedButton';
 import LoginDude from 'material-ui/svg-icons/action/perm-identity';
 import TextField from 'material-ui/TextField';
 import SignUp from './SignUp'
+import PropTypes from 'prop-types'; // react prop types are depecrated
+import {connect} from 'react-redux';
+import {userSignupRequest } from '../actions/signupActions';
 
 const customContentStyle = {
   width: '40%',
@@ -18,7 +21,7 @@ const boutons = {
 /**
  * Dialogs can be nested. This example opens a Date Picker from within a Dialog.
  */
-export default class LoginDialog extends React.Component {
+export class LoginDialog extends React.Component {
   constructor(props) {
     super(props);
     this.state = {open:false};
@@ -33,6 +36,9 @@ export default class LoginDialog extends React.Component {
   };
 
   render() {
+
+    const { userSignupRequest } = this.props;
+
     const actions = [
     <RaisedButton
         label="Login"
@@ -42,7 +48,7 @@ export default class LoginDialog extends React.Component {
         onTouchTap={this.handleClose.bind(this)}
       />,
 
-       <SignUp />,
+       <SignUp userSignupRequest={userSignupRequest} />,
 
     ];
 
@@ -76,3 +82,10 @@ export default class LoginDialog extends React.Component {
     );
   }
 }
+
+LoginDialog.propTypes = {
+        userSignupRequest: PropTypes.func.isRequired
+}
+
+
+export default connect(null , { userSignupRequest })(LoginDialog);

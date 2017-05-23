@@ -4,10 +4,11 @@ const config = require('../config/database');
 
 //User Schema
 const UserSchema = mongoose.Schema({
-    name: { type: String },
+    name: { type: String, required: true},
     email: { type: String, required: true},
     username: { type: String, require: true, unique: true},
-    password: {type: String, require: true}
+    password: {type: String, require: true},
+    passwordConfirmation: {type: String, require: true},
 });
 
 const User = module.exports = mongoose.model('User', UserSchema);

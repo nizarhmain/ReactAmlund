@@ -4,26 +4,39 @@ const User = require('../models/user');
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const config = require('../config/database');
+const validation = require('../shared/validations/signup');
 
 // register route
 router.post('/register', function(req, res, next){
-    //create a new user
-    let newUser = new User({
-        name: req.body.name,
-        email: req.body.email,
-        username: req.body.username,
-        password: req.body.password
-    });
+    setTimeout(function() {                                        // timeout for the loading screen thing
+const { errors, isValid } = validation.validateInput(req.body);    // returns isValid and errors
+    
+    if(!isValid){
+        res.status(400).json(errors);
+    } else {
+                    // we actually add the user to the database
+                    //create a new user
+                let newUser = new User({
+                    name: req.body.name,
+                    email: req.body.email,
+                    username: req.body.username,
+                    password: req.body.password,
+                    passwordConfirmation: req.body.passwordConfirmation,
+                });
+                // compare the passwords
+                
+                // add function user
+                User.addUser(newUser, function(err, user){
+                    if(err){
+                        res.json({success: false })
+                    } else {
+                        res.json({success: true })
+                    }
+                }); 
+    }
 
-    // add function user
-    User.addUser(newUser, function(err, user){
-        if(err){
-            res.json({success: false, msg: 'failed to register the user'})
-        } else {
-            res.json({success: true, msg: 'user registered'})
-        }
-    });
-
+    }, 1000);
+    
 });
 
 // authentication route
