@@ -8,6 +8,7 @@ import SignUp from './SignUp'
 import PropTypes from 'prop-types'; // react prop types are depecrated
 import {connect} from 'react-redux';
 import {userSignupRequest } from '../actions/signupActions';
+import {addFlashMessage } from '../actions/flashMessages';
 
 const customContentStyle = {
   width: '40%',
@@ -37,7 +38,7 @@ export class LoginDialog extends React.Component {
 
   render() {
 
-    const { userSignupRequest } = this.props;
+    const { userSignupRequest, addFlashMessage } = this.props;
 
     const actions = [
     <RaisedButton
@@ -48,7 +49,7 @@ export class LoginDialog extends React.Component {
         onTouchTap={this.handleClose.bind(this)}
       />,
 
-       <SignUp userSignupRequest={userSignupRequest} />,
+       <SignUp userSignupRequest={userSignupRequest} addFlashMessage = {addFlashMessage} />,
 
     ];
 
@@ -84,8 +85,9 @@ export class LoginDialog extends React.Component {
 }
 
 LoginDialog.propTypes = {
-        userSignupRequest: PropTypes.func.isRequired
+        userSignupRequest: PropTypes.func.isRequired,
+        addFlashMessage: PropTypes.func.isRequired
 }
 
 
-export default connect(null , { userSignupRequest })(LoginDialog);
+export default connect(null , { userSignupRequest, addFlashMessage })(LoginDialog);

@@ -1,9 +1,10 @@
 const validator = require('validator');
 const isEmpty = require('lodash/isEmpty');
+const User = require('../../models/user');
 
 
 module.exports.validateInput = function(data){
-        let errors = {};
+        let errors = {};   
 
         if((!data.email)){
             errors.email = 'this field is required';
@@ -12,14 +13,10 @@ module.exports.validateInput = function(data){
             errors.email = 'email is invalid';
              }
         }
-        
-         if((!data.name)){
-            errors.name = 'this field is required';
-        }
 
         if((!data.username)){
             errors.username = 'this field is required';
-        }
+        } 
 
          if((!data.password)){
             errors.password = 'this field is required';

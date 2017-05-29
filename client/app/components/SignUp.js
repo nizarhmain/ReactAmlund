@@ -5,6 +5,7 @@ import TextField from 'material-ui/TextField';
 import PropTypes from 'prop-types'; // react prop types are depecrated
 import CircularProgress from 'material-ui/CircularProgress';
 import { validateInput } from '../../../server/shared/validations/signup';
+import FlashMessagesList from './flash/FlashMessagesList';
 
 export default class SignUp extends React.Component {
   constructor(props) {
@@ -22,6 +23,8 @@ export default class SignUp extends React.Component {
     // since we lost the scope for the on change
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.handleOpen = this.handleOpen.bind(this);
+    this.handleClose = this.handleClose.bind(this);
   }
 
   handleOpen(){
@@ -57,7 +60,17 @@ export default class SignUp extends React.Component {
         this.props.userSignupRequest(this.state)
         .then(
           // if everything is succesfull
-            () => {  this.setState({ testState: 'does nothing', isLoading: false});      
+            () => {  this.setState({  username: '',
+                                      password: '',
+                                      email:'',
+                                      name: '',
+                                      passwordConfirmation: '', isLoading: false});      
+                      
+                      this.props.addFlashMessage({
+                        type: 'success',
+                        text: 'You signed up successfully. Welcome !'
+                      });
+                      
                       this.context.router.history.replace('/privet');                          
              },   
              // if we get an error back with errors with it with populate the state with the data            
@@ -75,7 +88,7 @@ export default class SignUp extends React.Component {
       <FlatButton
         label="Cancel"
         primary={true}
-        onTouchTap={this.handleClose.bind(this)}
+        onTouchTap={this.handleClose}
       />,
       <FlatButton
         label="Submit"
@@ -88,13 +101,13 @@ export default class SignUp extends React.Component {
 
     return (
       <div>
-        <FlatButton label="Sign Up !" onTouchTap={this.handleOpen.bind(this)} />
+        <FlatButton label="Sign Up !" onTouchTap={this.handleOpen} />
         <Dialog
           title="Sign Up your account "
           actions={actions}
           modal={false}
           open={this.state.open}
-          onRequestClose={this.handleClose.bind(this)}
+          onRequestClose={this.handleClose}
         >
           <TextField 
             hintText="Your Full Name" fullWidth={true} name="name" value={this.state.name} onChange={this.onChange}
@@ -122,9 +135,10 @@ export default class SignUp extends React.Component {
 
              {this.state.isLoading && <CircularProgress / >}
 
+             <FlashMessagesList />
+
+
         </Dialog>
-
-
 
       </div>
 
@@ -135,8 +149,9 @@ export default class SignUp extends React.Component {
 
 }
 
- SignUp.propTypes = {
-        userSignupRequest: PropTypes.func.isRequired
+SignUp.propTypes = {
+        userSignupRequest: PropTypes.func.isRequired,
+        addFlashMessage: PropTypes.func.isRequired,
     }
 
 SignUp.contextTypes = {

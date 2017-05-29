@@ -5,8 +5,8 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import AppLayout from './AppLayout';
 import {Provider} from 'react-redux';
 import thunk from 'redux-thunk';
-import { createStore, applyMiddleware } from 'redux';
-
+import { createStore, applyMiddleware, compose } from 'redux';
+import rootReducer from './rootReducer';
 
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
@@ -29,8 +29,11 @@ const muiTheme = getMuiTheme({
 });
 
 const store = createStore(
-    (state = {}) => state,
-    applyMiddleware(thunk)
+    rootReducer,
+    compose(
+        applyMiddleware(thunk),
+        window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
+      )
   );
 
 

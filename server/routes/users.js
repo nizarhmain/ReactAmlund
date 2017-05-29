@@ -4,17 +4,51 @@ const User = require('../models/user');
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const config = require('../config/database');
-const validation = require('../shared/validations/signup');
+const commonValidations = require('../shared/validations/signup');
+const Promise = require('bluebird');
+const isEmpty = require('lodash/isEmpty');
+
+
+function validateUnique(data, otherValidation){
+    let { errors } = otherValidation(data);
+
+    return Promise.all([
+  /*  Returning the promise */
+                User.getUserByUsername(data.username, function(err, user){  
+                                if (err) throw err;
+
+                                if(user){
+                                        if(user.username === data.username){
+                                        errors.username = "this username is already taken";
+                                        }
+                                }
+                                
+                            }),
+
+                User.getUserByEmail(data.email, function(err, user){  
+                                if (err) throw err;
+
+                                if(user){
+                                        if(user.email === data.email){
+                                        errors.email = "this email is already taken";
+                                    }
+                                }
+                                
+                            })
+        ]).then(() => {
+            return { 
+                errors,
+                isValid : isEmpty(errors)
+            };
+        });
+}
 
 // register route
-router.post('/register', function(req, res, next){
-    setTimeout(function() {                                        // timeout for the loading screen thing
-const { errors, isValid } = validation.validateInput(req.body);    // returns isValid and errors
-    
-    if(!isValid){
-        res.status(400).json(errors);
-    } else {
-                    // we actually add the user to the database
+router.post('/register', function(req, res){                     
+                                                                     // timeout for the loading screen thing
+  validateUnique(req.body, commonValidations.validateInput).then(({errors, isValid}) => {
+    if ( isValid ) {
+           // we actually add the user to the database
                     //create a new user
                 let newUser = new User({
                     name: req.body.name,
@@ -23,19 +57,18 @@ const { errors, isValid } = validation.validateInput(req.body);    // returns is
                     password: req.body.password,
                     passwordConfirmation: req.body.passwordConfirmation,
                 });
-                // compare the passwords
-                
+                // add a check if username and email already exists and throw that erro
+
                 // add function user
                 User.addUser(newUser, function(err, user){
                     if(err){
-                        res.json({success: false })
+                       res.status(400).json(errors);
                     } else {
-                        res.json({success: true })
+                        res.json({success: true });
                     }
                 }); 
-    }
-
-    }, 1000);
+            } 
+  });    // returns isValid and errors
     
 });
 
