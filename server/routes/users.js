@@ -73,14 +73,13 @@ router.post('/register', function(req, res){
 });
 
 // authentication route
-router.post('/authenticate', function(req, res, next){
-    const username = req.body.username;
-    const password = req.body.password;
+router.post('/authenticate', function(req, res ){ 
+    const {username, password} = req.body;
     
     User.getUserByUsername(username, (err, user) => {
         if(err) throw err;
         if(!user) {
-            return res.json({success: false, msg:'user not found'});
+            return res.json({ errors: {username: 'user not found'} });
         }
 
         User.comparePassword(password, user.password, (err, isMatch) => {
@@ -88,15 +87,15 @@ router.post('/authenticate', function(req, res, next){
             if(isMatch) {
                 const token = jwt.sign(user, config.secret, {
                     expiresIn: 604800 // 1 week
-                });
-
+             });
+   
                 res.json({
                     success: true,
-                    token: 'JWT ' + token,
-                    user: { id: user._id, name: user.name, username: user.username, email: user.email}
+                    token: token,
+                    user: { id: user._id, name: user.name, username: user.username, email: user.email},
                 })
             } else {
-                return res.json({success: false, msg: 'wrong password'});
+                return res.json({ errors: {password: 'wrong password '} });
             }
         });
     });

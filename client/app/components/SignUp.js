@@ -31,8 +31,16 @@ export default class SignUp extends React.Component {
     this.setState({open: true});
   };
 
-  handleClose(){
-    this.setState({open: false});
+handleClose(){
+this.setState({             
+                  open: false, 
+                  username: '',
+                  password: '',
+                  email:'',
+                  name: '',
+                  passwordConfirmation: '',
+                  errors: ''
+              });
   };
 
   onChange(e){
@@ -46,7 +54,6 @@ export default class SignUp extends React.Component {
     // if it ain't valid we populate the state with the errors received
     if(!isValid){
       this.setState({errors});
-      console.log("we got some errors boi ");
     }
     return isValid;
   }
@@ -58,7 +65,7 @@ export default class SignUp extends React.Component {
        this.setState({errors : {}, isLoading: true });
         e.preventDefault();
         this.props.userSignupRequest(this.state)
-        .then(
+        .then( 
           // if everything is succesfull
             () => {  this.setState({  username: '',
                                       password: '',
@@ -76,7 +83,7 @@ export default class SignUp extends React.Component {
              // if we get an error back with errors with it with populate the state with the data            
             (err) => { 
                   this.setState({ errors: err.response.data, isLoading: false });
-          }
+              }
         );
     }
   }
@@ -151,7 +158,7 @@ export default class SignUp extends React.Component {
 
 SignUp.propTypes = {
         userSignupRequest: PropTypes.func.isRequired,
-        addFlashMessage: PropTypes.func.isRequired,
+        addFlashMessage: PropTypes.func.isRequired
     }
 
 SignUp.contextTypes = {

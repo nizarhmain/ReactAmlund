@@ -7,8 +7,11 @@ import {Provider} from 'react-redux';
 import thunk from 'redux-thunk';
 import { createStore, applyMiddleware, compose } from 'redux';
 import rootReducer from './rootReducer';
-
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import setAuthorizationToken from './utils/setAuthorizationToken';
+import jwt from 'jsonwebtoken';
+import { setCurrentUser } from './actions/login';
+
 
 
 
@@ -37,10 +40,17 @@ const store = createStore(
   );
 
 
-
 // injection of tap even for material ui 
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
+
+// keep the jwt token saved in the localstorage 
+if(localStorage.jwtToken) {
+  setAuthorizationToken(localStorage.jwtToken);
+  store.dispatch(setCurrentUser(jwt.decode(localStorage.jwtToken)._doc));
+}
+
+
 
 class App extends React.Component {
   // render method returns a UI

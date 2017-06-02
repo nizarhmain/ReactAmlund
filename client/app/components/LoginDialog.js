@@ -9,85 +9,154 @@ import PropTypes from 'prop-types'; // react prop types are depecrated
 import {connect} from 'react-redux';
 import {userSignupRequest } from '../actions/signupActions';
 import {addFlashMessage } from '../actions/flashMessages';
+import { validateInput } from '../../../server/shared/validations/login';
+import setAuthorizationToken from '../utils/setAuthorizationToken';
+import { setCurrentUser } from '../actions/login';
+import jwt from 'jsonwebtoken';
+
 
 const customContentStyle = {
-  width: '40%',
-  maxWidth: 'none',
+	width: '40%',
+	maxWidth: 'none',
 };
 const customButtonStyle = {
 };
 const boutons = {
-  textAlign: 'center',
+	textAlign: 'center',
 };
 /**
  * Dialogs can be nested. This example opens a Date Picker from within a Dialog.
  */
 export class LoginDialog extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {open:false};
-  }
+	constructor(props) {
+		super(props);
+		this.state = {    
+											open:false,
+											username: '',
+											password: '',
+											errors: '',
+											isLoading: false
+							}
+				// binding to the actual scope that we have 
+		this.onChange = this.onChange.bind(this);
+		this.handleOpen = this.handleOpen.bind(this);
+		this.handleClose = this.handleClose.bind(this);
+		this.onSubmit = this.onSubmit.bind(this);
+	}
 
-  handleOpen() {
-    this.setState({open: true});
-  };
+	isValid(){
+		const { errors, isValid } = validateInput(this.state);
+		// if it ain't valid we populate the state with the errors received
+		if(!isValid){
+			this.setState({errors});
+		}
+		return isValid;
+	}
 
-  handleClose() {
-    this.setState({open: false});
-  };
+	handleOpen() {
+		this.setState({open: true});
+	};
 
-  render() {
+	handleClose() {
+		this.setState({open: false});
+	};
+	
 
-    const { userSignupRequest, addFlashMessage } = this.props;
+	onChange(e){
+		this.setState({ [e.target.name] : e.target.value});
+	}
 
-    const actions = [
-    <RaisedButton
-        label="Login"
-        secondary={true}
-        buttonStyle={customButtonStyle}
-        keyboardFocused={true}
-        onTouchTap={this.handleClose.bind(this)}
-      />,
+	onSubmit(e){
+		e.preventDefault();
+		this.setState({isLoading: true});
+		if( this.isValid()){
+				this.props.login(this.state).then(
+						// when login is correct we will redirect
+								(response) =>     {
+					 						if(response.data.errors){
+												this.setState({errors: response.data.errors, isLoading: false})  ;
+											}else{
+												this.setState({errors: '', isLoading: false});
+												localStorage.setItem('jwtToken', response.data.token);
+												setAuthorizationToken(response.data.token);						
+												const decodedToken = jwt.decode(response.data.token);
+												this.props.setCurrentUser(decodedToken._doc);
+											}
+										},
 
-       <SignUp userSignupRequest={userSignupRequest} addFlashMessage = {addFlashMessage} />,
+								(err) => { 
+														console.log("shouldnt happen");
+												}     
+					);			
+		}
+		 /* const decodedToken = jwt.decode(localStorage.getItem('jwtToken'));
+		console.log(decodedToken._doc); */
+		
 
-    ];
+	}
 
-    return (
-      <div>
-      <Tab icon={<LoginDude />}  onTouchTap={this.handleOpen.bind(this)}/>
-        <Dialog
-          title="Login"
-          actions={actions}
-          actionsContainerStyle={boutons}
-           contentStyle={customContentStyle}
-          modal={false}
-          open={this.state.open}
-          onRequestClose={this.handleClose.bind(this)}
-        >
-       <TextField 
-            hintText="User Name" fullWidth={true}
-          /><br />
-             <br />
-          <TextField
-            hintText=" Password " fullWidth={true} type="password"
-          />
+	render() {
 
-          
+		const { userSignupRequest, addFlashMessage } = this.props;
 
-        </Dialog>
+		const { errors } = this.state;
+
+		const actions = [
+
+			<RaisedButton
+					label="Login"
+					secondary={true}
+					buttonStyle={customButtonStyle}
+					keyboardFocused={true}
+					onTouchTap={this.onSubmit}
+				/>,
+
+			 <SignUp userSignupRequest={userSignupRequest} addFlashMessage = {addFlashMessage} />,
+
+		];
+
+		return (
+			<div>
+			<Tab icon={<LoginDude />}  onTouchTap={this.handleOpen}/>
+				<Dialog
+					title="Login"
+					actions={actions}
+					actionsContainerStyle={boutons}
+					 contentStyle={customContentStyle}
+					modal={false}
+					open={this.state.open}
+					onRequestClose={this.handleClose}
+				>
+			 <TextField 
+					 hintText="User Name" fullWidth={true} name="username" value={this.state.username} onChange={this.onChange}
+						errorText={errors.username}
+					/><br />
+						 <br />
+					<TextField
+					 hintText="Password" fullWidth={true} name="password" value={this.state.password} onChange={this.onChange} type="password"
+						errorText={errors.password}
+					/>
+
+					
+
+				</Dialog>
 
 
 
-      </div>
-    );
-  }
+			</div>
+		);
+	}
 }
 
 LoginDialog.propTypes = {
-        userSignupRequest: PropTypes.func.isRequired,
-        addFlashMessage: PropTypes.func.isRequired
+				userSignupRequest: PropTypes.func.isRequired,
+				addFlashMessage: PropTypes.func.isRequired,
+				setCurrentUser: PropTypes.func.isRequired
+}
+
+LoginDialog.contextTypes = {
+	router: PropTypes.object.isRequired
 }
 
 
-export default connect(null , { userSignupRequest, addFlashMessage })(LoginDialog);
+export default connect(null , { userSignupRequest, addFlashMessage, setCurrentUser })(LoginDialog);
