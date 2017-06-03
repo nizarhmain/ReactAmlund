@@ -1,6 +1,5 @@
 import React from 'react';
-import { Editor } from 'react-draft-wysiwyg';
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import TinyMCE from 'react-tinymce';
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
 import { connect } from 'react-redux';
@@ -13,11 +12,13 @@ class CreateArticle extends React.Component {
     super(props);
     this.state = {
       title: '',
-      content: ''
+      content: '',
     }
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
+
+
 
   onChange(e){
     this.setState({ [e.target.name] : e.target.value});
@@ -28,15 +29,27 @@ class CreateArticle extends React.Component {
      this.props.createArticle(this.state);
   }
 
+  handleEditorChange(e){
+    this.setState({ content : e.target.getContent()});
+  }
+
   render() {
     return (
       <div>
+      <h1> Creating an article </h1>
       <TextField 
-            hintText="Title of The Article" fullWidth={true} name="title" onChange={this.onChange}
+            hintText="Title of The Article"  name="title" onChange={this.onChange}
        />
-         <TextField 
-            hintText="Content" fullWidth={true} name="content" onChange={this.onChange}
-          />
+
+     <TinyMCE
+        content="<p>This is the initial content of the editor</p>"
+        config={{
+          plugins: 'link image code nonbreaking',
+          toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code link image',
+          nonbreaking_force_tab: true
+        }}
+        onChange={this.handleEditorChange.bind(this)}
+      />
         
           <FlatButton
           label="Submit"

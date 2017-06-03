@@ -18,9 +18,9 @@ export default class AppLayout extends React.Component {
       			<header>
       				<NavBar />
       			</header>
-      	
+      	   <main>
               <Route path="/createarticle" component={CreateArticle} />			      	
-				  
+				   </main>
 
       		
       		  </div>

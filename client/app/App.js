@@ -8,9 +8,8 @@ import thunk from 'redux-thunk';
 import { createStore, applyMiddleware, compose } from 'redux';
 import rootReducer from './rootReducer';
 import setAuthorizationToken from './utils/setAuthorizationToken';
-import jwt from 'jsonwebtoken';
 import { setCurrentUser } from './actions/login';
-
+import jwt from 'jsonwebtoken';
 
 
 

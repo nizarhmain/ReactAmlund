@@ -2,6 +2,11 @@ body{
 	margin: 0px;
 }
 
+main {
+	text-align: center;
+	margin: 25px;
+}
+
 #app {
 	font-family: 'Roboto', sans-serif;
 	

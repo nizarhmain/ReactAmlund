@@ -14,6 +14,7 @@ import setAuthorizationToken from '../utils/setAuthorizationToken';
 import { setCurrentUser } from '../actions/login';
 import { login } from '../actions/login';
 import jwt from 'jsonwebtoken';
+import jwtDecode from 'jwt-decode';
 
 
 const customContentStyle = {
