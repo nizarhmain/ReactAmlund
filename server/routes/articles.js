@@ -4,9 +4,10 @@ const passport = require('passport');
 const Article = require('../models/article');
 const User = require('../models/user');
 const config = require('../config/database');
+const authenticate = require('../middlewares/authenticate');
 
 // create an article
-router.post('/post', passport.authenticate('jwt', {session: false}), function(req,res,next){
+router.post('/post', authenticate.authenticate , function(req,res){
     
     var article = req.body;
     if (article.title == null || article.content == null) {
@@ -23,13 +24,13 @@ router.post('/post', passport.authenticate('jwt', {session: false}), function(re
         if(err){
             res.json({success: false, msg: 'failed to post the article'});
         } else {
-            res.json({success: true, msg: 'article registered'});
+            res.json({success: true, msg: 'article successfully registered', user: req.currentUser });
         }
     });
 });
 
 //get all the articles
-router.get('/all', function(req, res, next){
+router.get('/all', function(req, res){
     var query = Article.find();
     query.sort('-created');
     query.exec(function(err, results){
@@ -42,7 +43,7 @@ router.get('/all', function(req, res, next){
 });
 
 // get the published articles 
-router.get('/published', function(req, res,next){
+router.get('/published', function(req, res){
     var query = Article.find({is_published: true});
     query.sort('-created');
     query.exec(function(err, results){

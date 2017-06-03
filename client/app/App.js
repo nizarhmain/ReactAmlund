@@ -1,5 +1,5 @@
-var React = require('react');
-var ReactDOM = require('react-dom');
+const React = require('react');
+const ReactDOM = require('react-dom');
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import AppLayout from './AppLayout';
@@ -7,7 +7,6 @@ import {Provider} from 'react-redux';
 import thunk from 'redux-thunk';
 import { createStore, applyMiddleware, compose } from 'redux';
 import rootReducer from './rootReducer';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import setAuthorizationToken from './utils/setAuthorizationToken';
 import jwt from 'jsonwebtoken';
 import { setCurrentUser } from './actions/login';
@@ -47,7 +46,9 @@ injectTapEventPlugin();
 // keep the jwt token saved in the localstorage 
 if(localStorage.jwtToken) {
   setAuthorizationToken(localStorage.jwtToken);
-  store.dispatch(setCurrentUser(jwt.decode(localStorage.jwtToken)._doc));
+  const userInfo = jwt.decode(localStorage.jwtToken);
+  // we only store the stuff we need in the redux, we don't need the rest occupying memory in the store
+  store.dispatch(setCurrentUser(userInfo._doc));
 }
 
 

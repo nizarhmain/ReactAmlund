@@ -19,7 +19,7 @@ export default class SignUp extends React.Component {
         passwordConfirmation: '',
         errors: '',
         isLoading: false,
-    }
+    };
     // since we lost the scope for the on change
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
@@ -83,6 +83,7 @@ this.setState({
              // if we get an error back with errors with it with populate the state with the data            
             (err) => { 
                   this.setState({ errors: err.response.data, isLoading: false });
+
               }
         );
     }
@@ -140,7 +141,7 @@ this.setState({
           /><br />
              <br />
 
-             {this.state.isLoading && <CircularProgress / >}
+             {this.state.isLoading && <CircularProgress />}
 
              <FlashMessagesList />
 
@@ -159,8 +160,8 @@ this.setState({
 SignUp.propTypes = {
         userSignupRequest: PropTypes.func.isRequired,
         addFlashMessage: PropTypes.func.isRequired
-    }
+    };
 
 SignUp.contextTypes = {
   router: PropTypes.object.isRequired
-}
+};

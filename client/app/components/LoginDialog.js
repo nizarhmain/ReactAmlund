@@ -1,6 +1,6 @@
 import React from 'react';
 import Dialog from 'material-ui/Dialog';
-import {Tabs, Tab} from 'material-ui/Tabs';
+import {Tab} from 'material-ui/Tabs';
 import RaisedButton from 'material-ui/RaisedButton';
 import LoginDude from 'material-ui/svg-icons/action/perm-identity';
 import TextField from 'material-ui/TextField';
@@ -12,6 +12,7 @@ import {addFlashMessage } from '../actions/flashMessages';
 import { validateInput } from '../../../server/shared/validations/login';
 import setAuthorizationToken from '../utils/setAuthorizationToken';
 import { setCurrentUser } from '../actions/login';
+import { login } from '../actions/login';
 import jwt from 'jsonwebtoken';
 
 
@@ -36,7 +37,7 @@ export class LoginDialog extends React.Component {
 											password: '',
 											errors: '',
 											isLoading: false
-							}
+							};
 				// binding to the actual scope that we have 
 		this.onChange = this.onChange.bind(this);
 		this.handleOpen = this.handleOpen.bind(this);
@@ -63,6 +64,7 @@ export class LoginDialog extends React.Component {
 	
 
 	onChange(e){
+
 		this.setState({ [e.target.name] : e.target.value});
 	}
 
@@ -77,16 +79,17 @@ export class LoginDialog extends React.Component {
 												this.setState({errors: response.data.errors, isLoading: false})  ;
 											}else{
 												this.setState({errors: '', isLoading: false});
-												localStorage.setItem('jwtToken', response.data.token);
+				 								localStorage.setItem('jwtToken', response.data.token);
 												setAuthorizationToken(response.data.token);						
 												const decodedToken = jwt.decode(response.data.token);
 												this.props.setCurrentUser(decodedToken._doc);
+												this.context.router.history.replace('/');     
 											}
 										},
 
-								(err) => { 
-														console.log("shouldnt happen");
-												}     
+								(err) => {
+                                    console.log("shouldnt happen");
+										 }     
 					);			
 		}
 		 /* const decodedToken = jwt.decode(localStorage.getItem('jwtToken'));
@@ -151,12 +154,14 @@ export class LoginDialog extends React.Component {
 LoginDialog.propTypes = {
 				userSignupRequest: PropTypes.func.isRequired,
 				addFlashMessage: PropTypes.func.isRequired,
-				setCurrentUser: PropTypes.func.isRequired
-}
+				setCurrentUser: PropTypes.func.isRequired,
+				login: PropTypes.func.isRequired
+
+};
 
 LoginDialog.contextTypes = {
 	router: PropTypes.object.isRequired
-}
+};
 
 
-export default connect(null , { userSignupRequest, addFlashMessage, setCurrentUser })(LoginDialog);
+export default connect(null , { userSignupRequest, addFlashMessage, setCurrentUser, login })(LoginDialog);

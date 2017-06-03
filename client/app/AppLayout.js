@@ -1,11 +1,8 @@
 import React from 'react';
-import {
-  BrowserRouter as Router,
-  Route,
-} from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import NavBar from './components/NavBar';
 import Footer from './components/Footer';
-import SignUp from './components/SignUp';
+import CreateArticle from './components/CreateArticle';
 
 
 export default class AppLayout extends React.Component {
@@ -22,12 +19,10 @@ export default class AppLayout extends React.Component {
       				<NavBar />
       			</header>
       	
-				      	<main>				      	
-				      	</main>
+              <Route path="/createarticle" component={CreateArticle} />			      	
+				  
 
-      			<footer>
-      	  			  <Footer />
-      			</footer>
+      		
       		  </div>
      	 </Router>
     );

@@ -1,50 +1,81 @@
 import React from 'react';
 import {AppBar, Tabs, Tab} from 'material-ui';
 import styles from './css/navbar.css';
-import {Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types'; // react prop types are depecrated
-import { login } from '../actions/login';
-import { setCurrentUser } from '../actions/login';
 import LoginDialog from './LoginDialog';
 import MyDrawer from './Drawer';
+import FlatButton from 'material-ui/FlatButton'; 
+import { logout } from '../actions/login';
+
 
 
 class NavBar extends React.Component {
 
+logout(e){
+	e.preventDefault();
+	this.props.logout();
+	this.context.router.history.replace('/'); 
+}
+
 
 render(){
 
-    const { login } = this.props;
-
+		if(!this.props.authen.isAuthenticated){
 		return(
 			<div>
 				 <AppBar
-		    		title={<Link to ="/">Amlund</Link>}
+		    		title={<Link to ="/">Amlund.dk</Link>}
 		    		className="Navbar"
-		    		children={
-
-		    				  <LoginDialog login = {login} setCurrentUser = {setCurrentUser} />	// opens the login dialog box		    		
-		    		}
+		    		
+		    		// if user is not signed in 
+		    		children={ <LoginDialog />}	  			    		
 
 		    		iconElementLeft = {<MyDrawer /> }
-		    	
+		    		
 		  		 /> 
 
  			</div>
 			);
+	} else {
+			return(
+			<div>
+				 <AppBar
+		    		title={<Link to ="/">Amlund.dk</Link>}
+		    		className="Navbar"
+		    		// if user is not signed in 	    		
+		    		iconElementRight = {<FlatButton label="Log Out" onTouchTap = {this.logout.bind(this)}  /> }
+		    		iconElementLeft = {<MyDrawer /> }
+		  		 /> 
+
+ 			</div>
+			);
+		}
 	}
 
 
 
 }
 
+
 NavBar.propTypes = {
-        login: PropTypes.func.isRequired,
-        setCurrentUser: PropTypes.func.isRequired
+        authen: PropTypes.object.isRequired,
+        logout: PropTypes.func.isRequired
 }
 
+function mapStateToProps(state){
+	return {
+		authen: state.authen
+	};
+}
+
+NavBar.contextTypes = {
+  router: PropTypes.object.isRequired
+};
+
+
 // connecting to redux  
-export default connect(null , { login, setCurrentUser})(NavBar);
+export default connect(mapStateToProps, {logout} )(NavBar);
 
 

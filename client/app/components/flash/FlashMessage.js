@@ -17,7 +17,7 @@ class FlashMessage extends React.Component {
       <div>
       	{text}
 
-		     <FloatingActionButton mini={true} onTouchTap = { () => this.props.deleteFlashMessage(this.props.message.id) }>
+		     <FloatingActionButton mini={true} onTouchTap = { () => this.props.deleteFlashMessage(id) }>
 		      <ContentClear />
 		    </FloatingActionButton>
       </div>
@@ -29,6 +29,6 @@ class FlashMessage extends React.Component {
 FlashMessage.propTypes = {
 	message: PropTypes.object.isRequired,
 	deleteFlashMessage: PropTypes.func.isRequired
-}
+};
 
 export default FlashMessage;
