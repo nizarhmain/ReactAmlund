@@ -8,11 +8,13 @@ import { createArticle } from '../actions/articleActions';
 
 class CreateArticle extends React.Component {
 
+
   constructor(props) {
     super(props);
     this.state = {
       title: '',
-      content: '',
+      cover: '',
+      content: ''
     }
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
@@ -41,13 +43,19 @@ class CreateArticle extends React.Component {
             hintText="Title of The Article"  name="title" onChange={this.onChange}
        />
 
+       <TextField 
+            hintText="Url of the cover image "  name="cover" onChange={this.onChange}
+       />
+
      <TinyMCE
         content="<p>This is the initial content of the editor</p>"
         config={{
-          plugins: 'link image code nonbreaking',
-          toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code link image',
-          nonbreaking_force_tab: true
+          plugins: 'wordcount visualblocks template preview emoticons link image code nonbreaking textcolor colorpicker insertdatetime media pagebreak',
+          toolbar: 'fontselect fontsizeselect visualblocks template preview undo redo | bold italic | alignleft aligncenter alignright | pagebreak code link image forecolor backcolor emoticons insertdatetime media',
+          nonbreaking_force_tab: true, table_grid: false
         }}
+        
+
         onChange={this.handleEditorChange.bind(this)}
       />
         

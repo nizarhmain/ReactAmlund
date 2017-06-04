@@ -1,7 +1,6 @@
 import React from 'react';
 import Dialog from 'material-ui/Dialog';
 import {Tab} from 'material-ui/Tabs';
-import RaisedButton from 'material-ui/RaisedButton';
 import LoginDude from 'material-ui/svg-icons/action/perm-identity';
 import TextField from 'material-ui/TextField';
 import SignUp from './SignUp'
@@ -13,6 +12,8 @@ import { validateInput } from '../../../server/shared/validations/login';
 import setAuthorizationToken from '../utils/setAuthorizationToken';
 import { setCurrentUser } from '../actions/login';
 import { login } from '../actions/login';
+import RaisedButton from 'material-ui/RaisedButton';
+import FlatButton from 'material-ui/FlatButton';
 import jwt from 'jsonwebtoken';
 import jwtDecode from 'jwt-decode';
 
@@ -101,6 +102,8 @@ export class LoginDialog extends React.Component {
 
 	render() {
 
+
+
 		const { userSignupRequest, addFlashMessage } = this.props;
 
 		const { errors } = this.state;
@@ -121,7 +124,8 @@ export class LoginDialog extends React.Component {
 
 		return (
 			<div>
-			<Tab icon={<LoginDude />}  onTouchTap={this.handleOpen}/>
+
+			<FlatButton icon={<LoginDude />} label="Login"  onTouchTap={this.handleOpen}/>
 				<Dialog
 					title="Login"
 					actions={actions}

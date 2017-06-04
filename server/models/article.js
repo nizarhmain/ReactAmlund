@@ -3,6 +3,7 @@ const config = require('../config/database');
 
 const ArticleSchema = mongoose.Schema({
     title: { type: String, required: true },
+    cover: { type: String },
     is_published: { type: Boolean, default: false },
     content: { type: String, required: true },
     created: { type: Date, default: Date.now },

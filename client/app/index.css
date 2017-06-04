@@ -2,9 +2,11 @@ body{
 	margin: 0px;
 }
 
-main {
+main{
+	margin-top: 80px;
 	text-align: center;
-	margin: 25px;
+	font-family: 'Lato', sans-serif;
+	color: white;
 }
 
 #app {
@@ -12,8 +14,21 @@ main {
 	
 }
 
-.MyAwesomeReactComponent{
+.article{
 	
 }
+
+#mceu_21{
+	z-index: 1;
+	position: relative;
+}
+
+
+@media screen and (min-width: 480px) {
+    .article {
+        margin: 0 400px 150px 400px;
+    }
+}
+
 
 

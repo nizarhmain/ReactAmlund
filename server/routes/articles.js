@@ -10,12 +10,13 @@ const authenticate = require('../middlewares/authenticate');
 router.post('/post', authenticate.authenticate , function(req,res){
     
     var article = req.body;
-    if (article.title == null || article.content == null) {
+    if (article.title == null || article.content == null || article.cover == null) {
 		return res.sendStatus(400);
 	}
     // if everything goes well server side validation, initialize the article variable
     let newArticle = new Article({
         title: req.body.title,
+        cover: req.body.cover,
         is_published: req.body.is_published,
         content: req.body.content,
     });
@@ -33,12 +34,12 @@ router.post('/post', authenticate.authenticate , function(req,res){
 router.get('/all', function(req, res){
     var query = Article.find();
     query.sort('-created');
-    query.exec(function(err, results){
+    query.exec(function(err, articles){
         if(err) throw err;
-        for(var articleKey in results){
-            results[articleKey].content = results[articleKey].content.substr(0,400);
+        for(var articleKey in articles){
+            articles[articleKey].content = articles[articleKey].content.substr(0,400);
         }
-        return res.status(200).json(results);
+        return res.status(200).json({articles: articles});
     });
 });
 
