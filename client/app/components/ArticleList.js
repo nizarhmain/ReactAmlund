@@ -1,31 +1,41 @@
 import React from 'react';
 import Article from './Article';
-import PropTypes from 'prop-types'; // react prop types are depecrated
+import {connect} from 'react-redux';
 
+export default class ArticleList extends React.Component {
 
-export default function ArticleList({articles}) {
+	
+	constructor(props) {
+		super(props);
+		this.articles = this.props.articles;
+	}
+	
 
-	const emptyMessage = (
-		<h3> there are no articles yet</h3>
-		);
+	render(){
 
-	const articlesList = (
-		<div>
-		{ articles.map(article => <Article article={article} key={article._id} />)}
-		</div>
-		);
+		 var emptyMessage = (
+				<h3> there are no articles yet</h3>
+			);
+
+		 var articlesList = (
+				<div>
+				{ this.articles.map(article => <Article article={article} key={article._id} />)}
+				</div>
+			);
 
     return (
+      
       <div>
-      { articles.length === 0 ? emptyMessage : articlesList }
+
+        { this.articles.length === 0 ? emptyMessage : articlesList }  
+
       </div>
     );
+    
   
+  }
 }
 
-ArticleList.propTypes = {
-       articles: PropTypes.array.isRequired
-}
 
 
 

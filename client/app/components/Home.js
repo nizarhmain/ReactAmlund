@@ -15,7 +15,7 @@ componentDidMount() {
   render() {
     return (
     	<div>
-      <ArticleList articles={this.props.articles}/>
+     this is the home page
  		</div>
     );
   }

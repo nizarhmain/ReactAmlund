@@ -37,7 +37,7 @@ router.get('/all', function(req, res){
     query.exec(function(err, articles){
         if(err) throw err;
         for(var articleKey in articles){
-            articles[articleKey].content = articles[articleKey].content.substr(0,400);
+            articles[articleKey].content = articles[articleKey].content.substr(0,10);
         }
         return res.status(200).json({articles: articles});
     });
@@ -47,12 +47,12 @@ router.get('/all', function(req, res){
 router.get('/published', function(req, res){
     var query = Article.find({is_published: true});
     query.sort('-created');
-    query.exec(function(err, results){
+    query.exec(function(err, articles){
         if(err) throw err;
-        for(var articleKey in results){
-            results[articleKey].content = results[articleKey].content.substr(0,400);
+        for(var articleKey in articles){
+            articles[articleKey].content = articles[articleKey].content.substr(0,400);
         }
-        return res.status(200).json(results);
+        return res.status(200).json({articles: articles});
     });
 });
 
@@ -99,7 +99,7 @@ router.post('/post/unlike', function(req,res){
 });
 
 // editing a post
-router.put('/post/update',passport.authenticate('jwt', {session: false}), function(req,res){
+router.put('/post/update', authenticate.authenticate, function(req,res){
     var article = req.body;
     if(article == null || article._id == null){
         res.sendStatus(200);
@@ -128,17 +128,18 @@ router.put('/post/update',passport.authenticate('jwt', {session: false}), functi
 });
 
 //quick publish an article
-router.put('/post/publish/:id', passport.authenticate('jwt', {session: false}), function(req, res){
+router.put('/post/publish/:id',  authenticate.authenticate , function(req, res){
     var id = req.params.id;
     if(id == null || id == ''){
         res.sendStatus(400);
     }
     Article.update({_id: id}, {$set: {is_published:"true"}}, function(err, result){
+        if(err) throw err;
         return res.sendStatus(200);
     });
 });
 
-router.put('/post/hide/:id', passport.authenticate('jwt', {session: false}), function(req, res){
+router.put('/post/hide/:id', authenticate.authenticate, function(req, res){
     var id = req.params.id;
     if(id == null || id == ''){
         res.sendStatus(400);

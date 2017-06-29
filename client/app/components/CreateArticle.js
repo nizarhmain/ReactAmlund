@@ -52,7 +52,7 @@ class CreateArticle extends React.Component {
         config={{
           plugins: 'wordcount visualblocks template preview emoticons link image code nonbreaking textcolor colorpicker insertdatetime media pagebreak',
           toolbar: 'fontselect fontsizeselect visualblocks template preview undo redo | bold italic | alignleft aligncenter alignright | pagebreak code link image forecolor backcolor emoticons insertdatetime media',
-          nonbreaking_force_tab: true, table_grid: false
+          nonbreaking_force_tab: true, table_grid: false, height: 480
         }}
         
 
