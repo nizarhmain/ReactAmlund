@@ -2,14 +2,8 @@ import React from 'react';
 import Article from './Article';
 import {connect} from 'react-redux';
 
-export default class ArticleList extends React.Component {
+class ArticleList extends React.Component {
 
-	
-	constructor(props) {
-		super(props);
-		this.articles = this.props.articles;
-	}
-	
 
 	render(){
 
@@ -18,16 +12,16 @@ export default class ArticleList extends React.Component {
 			);
 
 		 var articlesList = (
-				<div>
-				{ this.articles.map(article => <Article article={article} key={article._id} />)}
+				<div className = "ui grid">
+  { this.props.articles.map(article => <div className="four wide column"> <Article article={article} key={article._id} /> </div>)}
 				</div>
 			);
 
     return (
       
       <div>
-
-        { this.articles.length === 0 ? emptyMessage : articlesList }  
+      	
+        { this.props.articles.length === 0 ? emptyMessage : articlesList }  
 
       </div>
     );
@@ -36,7 +30,13 @@ export default class ArticleList extends React.Component {
   }
 }
 
+function mapStateToProps(state){
+	return {
+		articles: state.articles
+	};
+}
 
+export default connect(mapStateToProps)(ArticleList);
 
 
 

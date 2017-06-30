@@ -129,28 +129,33 @@ router.put('/post/update', authenticate.authenticate, function(req,res){
 
 //quick publish an article
 router.put('/post/publish/:id',  authenticate.authenticate , function(req, res){
-    var id = req.params.id;
-    if(id == null || id == ''){
-        res.sendStatus(400);
-    }
-    Article.update({_id: id}, {$set: {is_published:"true"}}, function(err, result){
-        if(err) throw err;
-        return res.sendStatus(200);
-    });
+    setTimeout(function() {
+            var id = req.params.id;
+            if(id == null || id == ''){
+                res.sendStatus(400);
+            }
+            Article.update({_id: id}, {$set: {is_published:"true"}}, function(err, result){
+                if(err) throw err;
+                return res.sendStatus(200);
+            });
+    }, 1000);
+    
 });
 
 router.put('/post/hide/:id', authenticate.authenticate, function(req, res){
-    var id = req.params.id;
-    if(id == null || id == ''){
-        res.sendStatus(400);
-    }
-    Article.update({_id: id}, {$set: {is_published:"false"}}, function(err, result){
-        if(err) throw err;
-        return res.sendStatus(200);
-    });
+    setTimeout(function() {
+            var id = req.params.id;
+            if(id == null || id == ''){
+                res.sendStatus(400);
+            }
+            Article.update({_id: id}, {$set: {is_published:"false"}}, function(err, result){
+                if(err) throw err;
+                return res.sendStatus(200);
+            });       
+    }, 1000);
 });
 
-router.delete('/post/:id', passport.authenticate('jwt', {session: false}), function(req, res){
+router.delete('/post/:id', authenticate.authenticate, function(req, res){
     var id = req.params.id;
     if(id == null || id == ''){
         res.sendStatus(400);

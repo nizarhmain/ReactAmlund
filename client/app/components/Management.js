@@ -1,14 +1,13 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import ArticleList from './ArticleList';
+import { fetchArticles } from '../actions/articleActions';
 
 class Management extends React.Component {
-
 
 componentDidMount() {
 	this.props.fetchArticles();	
 }
-
 
   render() {
     return (
@@ -29,4 +28,4 @@ function mapStateToProps(state){
 	};
 }
 
-export default connect(mapStateToProps)(Management);
+export default connect(mapStateToProps, {fetchArticles})(Management);
