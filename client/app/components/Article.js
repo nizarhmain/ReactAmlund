@@ -4,7 +4,7 @@ import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import {connect} from 'react-redux';
 import { hideArticle, publishArticle, deleteArticle } from '../actions/articleActions';
-import PropTypes from 'prop-types'; // react prop types are depecrated
+import { Link } from 'react-router-dom';
 
 
 
@@ -78,7 +78,7 @@ render(){
     </CardText>
     
     <CardActions>
-      <RaisedButton label="Read"  default="true" />
+    <Link to ={"/article/" + this.state.article._id} >Læs Mere</Link>
       
       {this.state.articleState ?  <RaisedButton label="Hide"  backgroundColor="#e2e2d0" labelColor="#fff" onTouchTap={this.onHide}
       	disabled={this.state.isLoading}
@@ -95,13 +95,6 @@ render(){
   }
 }
 
-
-Article.propTypes = {
-        hideArticle: PropTypes.func.isRequired,
-        publishArticle: PropTypes.func.isRequired,
-        deleteArticle: PropTypes.func.isRequired,
-
-};
 
 
 export default connect(null , {hideArticle, publishArticle, deleteArticle})(Article);

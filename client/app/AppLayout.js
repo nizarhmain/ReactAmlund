@@ -5,6 +5,7 @@ import Footer from './components/Footer';
 import CreateArticle from './components/CreateArticle';
 import Management from './components/Management';
 import Profile from './components/Profile';
+import ReadArticle from './components/ReadArticle';
 import Home from './components/Home';
 import requireAuth from './utils/requireAuth';
 
@@ -24,7 +25,8 @@ export default class AppLayout extends React.Component {
               <Route exact path="/" component={Home} />
               <Route path="/createarticle" component={requireAuth(CreateArticle)} />
               <Route path="/management" component={requireAuth(Management)} />
-              <Route path="/profile" component={requireAuth(Profile)} />              
+              <Route path="/profile" component={requireAuth(Profile)} />     
+              <Route path="/article/:id" component={ReadArticle} />         
            </main>
            
           

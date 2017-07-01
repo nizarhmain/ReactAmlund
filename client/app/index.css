@@ -23,6 +23,12 @@ main{
 	overflow: hidden;
 }
 
+.innerArticle_image img{
+	height: 400px;
+	width: 400px;
+	overflow: hidden;
+}
+
 #mceu_21{
 	z-index: 1;
 	position: relative;

@@ -62,14 +62,16 @@ router.get('/post/:id', function(req,res){
     if(id == ''){
         return res.sendStatus(400);
     }
+
     var query = Article.findOne({_id: id, is_published: true});
-    query.exec(function(err, result){
-        if(err) throw err;
-        if(result != null){
-            result.update({ $inc: {read: 1}}, function(err, nbRows, raw){
-                return res.status(200).json(result);
+    query.exec(function(err, article){
+
+        if(article != null){
+            article.update({ $inc: {read: 1}}, function(err, nbRows, raw){
+                return res.status(200).json({article: article});
             });
         } else {
+            console.log("the article doesn't exist, sorry, please don't hack me");
             return res.sendStatus(400);
         }
     });

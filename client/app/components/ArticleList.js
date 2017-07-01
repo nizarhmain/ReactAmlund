@@ -13,9 +13,9 @@ class ArticleList extends React.Component {
 
 		 var articlesList = (
 				<div className = "ui stackable grid container">
-  					{ this.props.articles.map(article => 
-  				<div className="four wide column" key={article._id}> <Article article={article}/> </div>)}
-			</div>
+  						{ this.props.articles.map(article => 
+  						<div className="four wide column" key={article._id}> <Article article={article}/> </div>)}
+				</div>
 			);
 
     return (
