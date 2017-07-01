@@ -294,6 +294,7 @@ header.is-fixed {
   }
 }
 #cd-lateral-nav.lateral-menu-is-open {
+  z-index: 4;
   -webkit-transform: translateX(0);
   -moz-transform: translateX(0);
   -ms-transform: translateX(0);

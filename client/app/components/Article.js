@@ -59,7 +59,8 @@ onDelete(e){
 render(){
     return (
       <div className="article">
-      <Card >
+   <Card >
+    
     <CardHeader
       title={this.state.article.title}
       subtitle={this.state.article.created}
@@ -67,14 +68,15 @@ render(){
       
     />
 
-    <CardMedia
-      overlay={<CardTitle title={this.state.article.title} subtitle="Overlay subtitle" />}
-    >
+    <CardMedia className="article_image"
+    	overlay={<CardTitle title={this.state.article.title} subtitle="Overlay subtitle"/>}>
       <img src={this.state.article.cover} />
     </CardMedia>
+
     <CardText>
       this is just some dummy content
     </CardText>
+    
     <CardActions>
       <RaisedButton label="Read"  default="true" />
       
@@ -85,6 +87,7 @@ render(){
        <RaisedButton label="Update" backgroundColor="#3399ff"labelColor="#fff"/>
         <RaisedButton label="Delete"  backgroundColor="#ff3300"labelColor="#fff" onTouchTap={this.onDelete}/>
     </CardActions>
+  
   </Card>
   </div>
     );

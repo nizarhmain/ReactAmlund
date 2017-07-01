@@ -12,9 +12,10 @@ class ArticleList extends React.Component {
 			);
 
 		 var articlesList = (
-				<div className = "ui grid">
-  { this.props.articles.map(article => <div className="four wide column"> <Article article={article} key={article._id} /> </div>)}
-				</div>
+				<div className = "ui stackable grid container">
+  					{ this.props.articles.map(article => 
+  				<div className="four wide column" key={article._id}> <Article article={article}/> </div>)}
+			</div>
 			);
 
     return (

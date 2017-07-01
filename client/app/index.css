@@ -17,6 +17,11 @@ main{
 	
 }
 
+.article_image{
+	height: 330px;
+	width: 100%;
+	overflow: hidden;
+}
 
 #mceu_21{
 	z-index: 1;
