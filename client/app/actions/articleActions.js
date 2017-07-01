@@ -15,21 +15,7 @@ export function fetchArticles(){
 	}
 }
 
-export function getArticle(id){
-	return dispatch => {
-		fetch('http://localhost:3000/articles/post/' + id )
-		.then(res => res.json())
-		.then(data => dispatch(setArticle(data.article)));
-	}	
-}
 
-
-export function setArticle(article){
-	return {
-		type: 'ARTICLE_FETCHED',
-		article
-	}
-}
 
 export function setArticles(articles){
 	return {
