@@ -1,6 +1,8 @@
 import React from 'react';
 import Article from './Article';
 import {connect} from 'react-redux';
+import CircularProgress from 'material-ui/CircularProgress';
+
 
 class ArticleList extends React.Component {
 
@@ -8,7 +10,7 @@ class ArticleList extends React.Component {
 	render(){
 
 		 var emptyMessage = (
-				<h3> there are no articles yet</h3>
+				<CircularProgress size={80} thickness={5} />
 			);
 
 		 var articlesList = (

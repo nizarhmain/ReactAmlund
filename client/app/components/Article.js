@@ -78,7 +78,7 @@ render(){
     </CardMedia>
 
     <CardActions>
-    <RaisedButton> <Link to ={"/article/" + this.state.article._id} >Læs Mere</Link> </RaisedButton>
+    <Link to ={"/article/" + this.state.article._id} ><RaisedButton label="Læs mere" /> </Link> 
     
     {this.props.authen.isAuthenticated ?
 
@@ -89,7 +89,7 @@ render(){
               className="article_settings"
             >
       {this.state.articleState ? <MenuItem primaryText="Skjule" onTouchTap={this.onHide} style={{color:'grey'}}/> : <MenuItem primaryText="Udgive" onTouchTap={this.onPublish} style={{color:'green'}}/> }     
-      <MenuItem primaryText="Opdatere" style={{color:'blue'}} />
+      <Link to ={"/updatearticle/" + this.state.article._id} >  <MenuItem primaryText="Opdatere" style={{color:'#9FA9FF'}}/></Link> 
       <MenuItem primaryText="Slette" onTouchTap={this.onDelete} style={{color:'red'}}/>
     </IconMenu>
 

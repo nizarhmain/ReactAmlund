@@ -95,9 +95,9 @@ class CreateArticle extends React.Component {
      <TinyMCE
         content="<p>This is the initial content of the editor</p>"
         config={{
-          plugins: 'wordcount visualblocks template preview emoticons link image code nonbreaking textcolor colorpicker insertdatetime media pagebreak',
-          toolbar: 'fontselect fontsizeselect visualblocks template preview undo redo | bold italic | alignleft aligncenter alignright | pagebreak code link image forecolor backcolor emoticons insertdatetime media',
-          nonbreaking_force_tab: true, table_grid: false, height: 480, image_advtab: true
+          plugins: 'wordcount fullscreen visualblocks template preview emoticons link image code nonbreaking textcolor colorpicker insertdatetime media pagebreak',
+          toolbar: 'fontselect fullscreen fontsizeselect visualblocks template preview undo redo | bold italic | alignleft aligncenter alignright | pagebreak code link image forecolor backcolor emoticons insertdatetime media',
+          nonbreaking_force_tab: true, table_grid: false, height: 1500, image_advtab: true
         }}
         
 
