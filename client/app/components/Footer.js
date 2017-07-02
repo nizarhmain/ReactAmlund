@@ -20,7 +20,7 @@ constructor(props) {
 
   render() {
     return (
-      <Paper zDepth={1}>
+      <Paper zDepth={1} className="footer">
         <BottomNavigation selectedIndex={this.state.selectedIndex}>
           <BottomNavigationItem
             label="Recents"

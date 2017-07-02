@@ -19,11 +19,12 @@ router.post('/post', authenticate.authenticate , function(req,res){
         cover: req.body.cover,
         is_published: req.body.is_published,
         content: req.body.content,
+        author: req.body.author
     });
 
     Article.AddArticle(newArticle, function(err, article){
         if(err){
-            res.json({success: false, msg: 'failed to post the article'});
+            return res.sendStatus(400);
         } else {
             res.json({success: true, msg: 'article successfully registered', user: req.currentUser });
         }

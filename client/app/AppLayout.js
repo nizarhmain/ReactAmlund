@@ -30,7 +30,7 @@ export default class AppLayout extends React.Component {
            </main>
            
           
-            
+            <Footer />
            
 
       		

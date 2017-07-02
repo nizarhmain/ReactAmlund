@@ -5,6 +5,10 @@ import RaisedButton from 'material-ui/RaisedButton';
 import {connect} from 'react-redux';
 import { hideArticle, publishArticle, deleteArticle } from '../actions/articleActions';
 import { Link } from 'react-router-dom';
+import IconMenu from 'material-ui/IconMenu';
+import MenuItem from 'material-ui/MenuItem';
+import IconButton from 'material-ui/IconButton';
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 
 
 
@@ -69,23 +73,29 @@ render(){
     />
 
     <CardMedia className="article_image"
-    	overlay={<CardTitle title={this.state.article.title} subtitle="Overlay subtitle"/>}>
+    	overlay={<CardTitle title={this.state.article.title} subtitle={"blev læst " + this.state.article.read + " gange"}/>}>
       <img src={this.state.article.cover} />
     </CardMedia>
 
-    <CardText>
-      this is just some dummy content
-    </CardText>
-    
     <CardActions>
-    <Link to ={"/article/" + this.state.article._id} >Læs Mere</Link>
-      
-      {this.state.articleState ?  <RaisedButton label="Hide"  backgroundColor="#e2e2d0" labelColor="#fff" onTouchTap={this.onHide}
-      	disabled={this.state.isLoading}
-      />
- :        <RaisedButton label="Publish"  backgroundColor="#00e600" labelColor="#fff"  onTouchTap={this.onPublish} disabled={this.state.isLoading}/> }
-       <RaisedButton label="Update" backgroundColor="#3399ff"labelColor="#fff"/>
-        <RaisedButton label="Delete"  backgroundColor="#ff3300"labelColor="#fff" onTouchTap={this.onDelete}/>
+    <RaisedButton> <Link to ={"/article/" + this.state.article._id} >Læs Mere</Link> </RaisedButton>
+    
+    {this.props.authen.isAuthenticated ?
+
+    <IconMenu
+              iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
+              anchorOrigin={{horizontal: 'left', vertical: 'top'}}
+              targetOrigin={{horizontal: 'left', vertical: 'top'}}
+              className="article_settings"
+            >
+      {this.state.articleState ? <MenuItem primaryText="Skjule" onTouchTap={this.onHide} style={{color:'grey'}}/> : <MenuItem primaryText="Udgive" onTouchTap={this.onPublish} style={{color:'green'}}/> }     
+      <MenuItem primaryText="Opdatere" style={{color:'blue'}} />
+      <MenuItem primaryText="Slette" onTouchTap={this.onDelete} style={{color:'red'}}/>
+    </IconMenu>
+
+     : ""}
+    
+
     </CardActions>
   
   </Card>
@@ -95,6 +105,11 @@ render(){
   }
 }
 
+function mapStateToProps(state){
+  return {
+    authen: state.authen,
+  };
+}
 
 
-export default connect(null , {hideArticle, publishArticle, deleteArticle})(Article);
+export default connect(mapStateToProps , {hideArticle, publishArticle, deleteArticle})(Article);

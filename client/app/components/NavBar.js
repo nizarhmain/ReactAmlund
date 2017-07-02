@@ -34,8 +34,8 @@ class NavBar extends React.Component {
            <Link className="logo" to ="/">Amlund.dk</Link>
           <nav id="cd-top-nav">
             <ul>
-            {this.props.authen.isAuthenticated && <li id="ProfileLink"><Link to ="/profile">Profile</Link></li>}
-            {!this.props.authen.isAuthenticated ? <li><LoginDialog /></li> :  <li><FlatButton label="Log Out" onTouchTap = {this.logout.bind(this)}/></li> }
+            {this.props.authen.isAuthenticated && <li id="ProfileLink"><Link to ="/profile">Profilen</Link></li>}
+            {!this.props.authen.isAuthenticated ? <li><LoginDialog /></li> :  <li><FlatButton label="Log Ud" onTouchTap = {this.logout.bind(this)}/></li> }
             </ul>
           </nav>
           <a id="cd-menu-trigger" href="#0"><span className="cd-menu-text">Menu</span><span className="cd-menu-icon" /></a>

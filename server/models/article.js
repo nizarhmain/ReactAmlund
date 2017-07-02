@@ -6,6 +6,7 @@ const ArticleSchema = mongoose.Schema({
     cover: { type: String },
     is_published: { type: Boolean, default: false },
     content: { type: String, required: true },
+    author: {type: String},
     created: { type: Date, default: Date.now },
     updated: { type: Date, default: Date.now },
     read: { type: Number, default: 0 },

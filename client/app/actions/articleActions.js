@@ -3,7 +3,8 @@ import axios from 'axios';
 
 export function createArticle(article){
 	return dispatch => {
-		return axios.post('http://localhost:3000/articles/post', article);
+		return axios.post('http://localhost:3000/articles/post', article)
+		.then(res => console.log(res));
 	};
 }
 
@@ -15,7 +16,13 @@ export function fetchArticles(){
 	}
 }
 
-
+export function fetchPublishedArticles(){
+	return dispatch => {
+		fetch('http://localhost:3000/articles/published')
+		.then(res => res.json())
+      	.then(data => dispatch(setArticles(data.articles)));
+	}
+}
 
 export function setArticles(articles){
 	return {
