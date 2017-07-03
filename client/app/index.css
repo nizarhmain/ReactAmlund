@@ -39,8 +39,8 @@ main{
 }
 
 .submitButton{
-	width: 30%;
-	margin: 100px;
+	display: inline-flex;
+	margin: 50px;
 }
 
 .checkMark{

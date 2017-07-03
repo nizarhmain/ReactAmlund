@@ -61,6 +61,10 @@ onDelete(e){
 
 
 render(){
+
+    var date  = new Date(this.state.article.created);
+    var newDate = date.toLocaleDateString();
+
     return (
       <div className="article">
    <Card >
@@ -68,7 +72,7 @@ render(){
     {this.props.authen.isAuthenticated ?
     <CardHeader
       title={this.state.article.title}
-      subtitle={this.state.article.created}
+      subtitle={newDate}
       children ={this.state.articleState ? <i className="checkmark icon checkMark"></i> : <i className="minus circle icon minusMark"></i> } 
       
     />

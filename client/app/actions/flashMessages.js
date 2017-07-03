@@ -7,9 +7,8 @@ export function addFlashMessage(message){
 }
 
 
-export function deleteFlashMessage(id){
+export function deleteFlashMessage(){
 	return { 	
-		type: 'DELETE_FLASH_MESSAGE',
-		id 		// and we pass that message further down the pipe
+		type: 'DELETE_FLASH_MESSAGE'
 	}
 }

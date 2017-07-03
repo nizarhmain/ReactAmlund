@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { createArticle } from '../actions/articleActions';
 import Dialog from 'material-ui/Dialog';
 import FlashMessage from './flash/FlashMessage';
-import {addFlashMessage } from '../actions/flashMessages';
+import {addFlashMessage, deleteFlashMessage } from '../actions/flashMessages';
 import { Button, Header, Icon, Modal } from 'semantic-ui-react'
 
 class CreateArticle extends React.Component {
@@ -19,10 +19,12 @@ class CreateArticle extends React.Component {
       title: '',
       cover: '',
       content: '',
-      author: this.props.authen.user.name
+      author: this.props.authen.user.name,
+      modalOpen: false 
     }
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.handleClose = this.handleClose.bind(this);
   }
 
 
@@ -32,6 +34,7 @@ class CreateArticle extends React.Component {
 
   onSubmit(e){
      e.preventDefault();
+     this.setState({ modalOpen: true });
      this.props.createArticle(this.state).then( () => {
             this.props.addFlashMessage({
                         type: 'success',
@@ -50,6 +53,12 @@ class CreateArticle extends React.Component {
     this.setState({ content : e.target.getContent()});
   }
 
+
+  handleClose(e){
+  	this.setState({ modalOpen: false });
+  	this.props.deleteFlashMessage();
+  }
+
   render() {
     const actions = [
           <FlatButton
@@ -60,9 +69,7 @@ class CreateArticle extends React.Component {
         ];
 
     return (
-      <div>
-
-     
+      <div>   
 
       <h1 className="ui header"> Skriv en Ny artikel</h1>
       <h2 className ="ui header"> Written By : {this.props.authen.user.name } </h2>
@@ -86,13 +93,26 @@ class CreateArticle extends React.Component {
 
         onChange={this.handleEditorChange.bind(this)}
       />
-      
+     
+     <div className ="submitButton">
+      <Modal
+        trigger={<Button onClick={this.onSubmit} color='green'>Submit</Button>}
+        open={this.state.modalOpen}
+        onClose={this.handleClose}
+        basic
+        size='small'
 
+      >
+        <Header icon='browser' content={this.props.messages.text} />
+        <Modal.Actions>
+          <Button color='green' onClick={this.handleClose} inverted>
+            <Icon name='checkmark' /> Got it
+          </Button>
+        </Modal.Actions>
+      </Modal>
+      </div>  
 
-	  <Modal trigger={<Button onClick={ this.onSubmit }>Submit</Button>} basic size='small'>
-			    <Header > <FlashMessage /> </Header>
-	  </Modal>
-
+	
 
       </div>
     );
@@ -102,10 +122,12 @@ class CreateArticle extends React.Component {
 function mapStateToProps(state){
   return {
     authen: state.authen,
+    messages: state.flashMessages
+
   };
 }
 
 // connecting to redux  
-export default connect(mapStateToProps, {createArticle, addFlashMessage} )(CreateArticle);
+export default connect(mapStateToProps, {createArticle, addFlashMessage, deleteFlashMessage} )(CreateArticle);
 
 

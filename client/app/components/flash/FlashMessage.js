@@ -1,7 +1,9 @@
 import React from 'react';
 import ContentClear from 'material-ui/svg-icons/content/clear';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
-import { Button , Icon} from 'semantic-ui-react'
+import { Button , Icon} from 'semantic-ui-react';
+import {connect} from 'react-redux';
+import { deleteFlashMessage } from '../../actions/flashMessages';
 
 
 class FlashMessage extends React.Component {
@@ -13,23 +15,24 @@ class FlashMessage extends React.Component {
 
   render() {
 
-  	const { id, type, text } = this.props.message;
+  		const { text, type } = this.props; 
 
     return (
       <div>
 
-
       	{text}
 				 
-		     <Button color='green' inverted onClick={ () => this.props.deleteFlashMessage(id) }>
-		        <Icon name='checkmark' /> Ok
-		      </Button>
       </div>
     );
   }
 }
 
+function mapStateToProps(state){
+	return {
+		messages: state.flashMessages
+	}
+}
 
 
 
-export default FlashMessage;
+export default connect(mapStateToProps)(FlashMessage);

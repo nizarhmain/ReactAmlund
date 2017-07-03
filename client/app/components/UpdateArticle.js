@@ -9,6 +9,9 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Checkbox from 'material-ui/Checkbox';
 import TextField from 'material-ui/TextField';
 import { updateArticle } from '../actions/articleActions';
+import FlashMessage from './flash/FlashMessage';
+import {addFlashMessage, deleteFlashMessage } from '../actions/flashMessages';
+import { Button, Header, Icon, Modal } from 'semantic-ui-react'
 
 
 
