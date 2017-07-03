@@ -2,9 +2,13 @@ import React from 'react';
 import TinyMCE from 'react-tinymce';
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
 import { connect } from 'react-redux';
 import { createArticle } from '../actions/articleActions';
 import Dialog from 'material-ui/Dialog';
+import FlashMessage from './flash/FlashMessage';
+import {addFlashMessage } from '../actions/flashMessages';
+import { Button, Header, Icon, Modal } from 'semantic-ui-react'
 
 class CreateArticle extends React.Component {
 
@@ -15,34 +19,12 @@ class CreateArticle extends React.Component {
       title: '',
       cover: '',
       content: '',
-      author: this.props.authen.user.name,
-      open: false,
-      open2: false
+      author: this.props.authen.user.name
     }
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
-    this.handleClose = this.handleClose.bind(this);
-    this.handleOpen = this.handleOpen.bind(this);
-    this.handleClose2 = this.handleClose2.bind(this);
-    this.handleOpen2 = this.handleOpen2.bind(this);
   }
 
-
-  handleOpen(){
-    this.setState({open: true});
-  };
-
-  handleClose(){
-    this.setState({open: false});
-  };
-
- handleOpen2(){
-    this.setState({open2: true});
-  };
-
-  handleClose2(){
-    this.setState({open2: false});
-  };
 
   onChange(e){
     this.setState({ [e.target.name] : e.target.value});
@@ -51,10 +33,16 @@ class CreateArticle extends React.Component {
   onSubmit(e){
      e.preventDefault();
      this.props.createArticle(this.state).then( () => {
-            this.handleOpen2();
+            this.props.addFlashMessage({
+                        type: 'success',
+                        text: 'The article was successfully created!'
+                      });
            },
            (err) => {
-            this.handleOpen();
+           		this.props.addFlashMessage({
+                        type: 'error',
+                        text: 'OOPS there was an error !'
+                      });
            });
   }
 
@@ -71,26 +59,21 @@ class CreateArticle extends React.Component {
           />,
         ];
 
-    const actions2 = [
-          <FlatButton
-            label="OK"
-            primary={true}
-            onTouchTap={this.handleClose2}
-          />,
-        ];
-
-
     return (
       <div>
-      <h1 className="ui header"> Skriv en Ny artikel</h1>
-      <p> {this.props.authen.user.name }</p>
-      <TextField 
-            hintText="Title of The Article"  name="title" onChange={this.onChange}
-       />
 
-       <TextField 
-            hintText="Url of the cover image "  name="cover" onChange={this.onChange}
-       />
+     
+
+      <h1 className="ui header"> Skriv en Ny artikel</h1>
+      <h2 className ="ui header"> Written By : {this.props.authen.user.name } </h2>
+
+      <div className = "update_settings">
+			<div className ="ui container segment ">
+			 <TextField hintText="Title of The Article"  name="title" onChange={this.onChange} />
+			 <TextField hintText="Url of the cover image "  name="cover" onChange={this.onChange} />				
+			</div>	
+	 </div>
+
 
      <TinyMCE
         content="<p>This is the initial content of the editor</p>"
@@ -103,30 +86,14 @@ class CreateArticle extends React.Component {
 
         onChange={this.handleEditorChange.bind(this)}
       />
-        
-        <Dialog
-          title="OOPS, there was an Error Creating the Article"
-          titleStyle={{color: 'red'}}
-          actions={actions}
-          modal={true}
-          open={this.state.open}
-        >
-        </Dialog>
+      
 
-        <Dialog
-          title="Article Successfully Created"
-          titleStyle={{color: 'green'}}
-          actions={actions2}
-          modal={true}
-          open={this.state.open2}
-        >
-        </Dialog>
 
-          <FlatButton
-          label="Submit"
-          primary={true}
-          onTouchTap={this.onSubmit}
-        />     
+	  <Modal trigger={<Button onClick={ this.onSubmit }>Submit</Button>} basic size='small'>
+			    <Header > <FlashMessage /> </Header>
+	  </Modal>
+
+
       </div>
     );
   }
@@ -139,6 +106,6 @@ function mapStateToProps(state){
 }
 
 // connecting to redux  
-export default connect(mapStateToProps, {createArticle} )(CreateArticle);
+export default connect(mapStateToProps, {createArticle, addFlashMessage} )(CreateArticle);
 
 

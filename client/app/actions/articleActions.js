@@ -8,6 +8,13 @@ export function createArticle(article){
 	};
 }
 
+export function updateArticle(article){
+	return dispatch => {
+		return axios.put('http://localhost:3000/articles/post/update', article)
+		.then(res => console.log(res));
+	}
+}
+
 export function fetchArticles(){
 	return dispatch => {
 		fetch('http://localhost:3000/articles/all')

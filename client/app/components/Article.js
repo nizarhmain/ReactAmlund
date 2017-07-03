@@ -65,12 +65,16 @@ render(){
       <div className="article">
    <Card >
     
+    {this.props.authen.isAuthenticated ?
     <CardHeader
       title={this.state.article.title}
       subtitle={this.state.article.created}
-      avatar="https://scontent-mxp1-1.xx.fbcdn.net/v/t1.0-9/15940719_10209450529474837_3002653333101128053_n.jpg?oh=395714d17626502d8e6ea304b6589ea6&oe=59A671F3"
+      children ={this.state.articleState ? <i className="checkmark icon checkMark"></i> : <i className="minus circle icon minusMark"></i> } 
       
     />
+
+    : "" }
+
 
     <CardMedia className="article_image"
     	overlay={<CardTitle title={this.state.article.title} subtitle={"blev læst " + this.state.article.read + " gange"}/>}>

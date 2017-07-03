@@ -15,7 +15,7 @@ constructor(props) {
 		};
 	}
 
-componentDidMount() {	
+componentWillMount() {	
 	var id = this.props.match.params.id;
 	axios.get('http://localhost:3000/articles/post/' + id).then(res => {
 		this.setState({article: res.data.article, isLoading: false})

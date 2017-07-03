@@ -114,7 +114,7 @@ router.post('/post/unlike', function(req,res){
 router.put('/post/update', authenticate.authenticate, function(req,res){
 	var article = req.body;
 	if(article == null || article._id == null){
-		res.sendStatus(200);
+		return res.sendStatus(400);
 	} else {
 
 	var updatedArticle = {};
@@ -130,7 +130,7 @@ router.put('/post/update', authenticate.authenticate, function(req,res){
 	updatedArticle.updated = new Date();
 	Article.update({_id: article._id}, updatedArticle, function(err,nbRows, raw){
 	if(err){
-			res.json({success: false, msg: 'failed to update the article'});
+		    return res.sendStatus(400);
 		} else {
 			res.json({success: true, msg: 'article registered'});
 		}

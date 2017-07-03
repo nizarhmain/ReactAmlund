@@ -4,6 +4,13 @@ import CircularProgress from 'material-ui/CircularProgress';
 import {connect} from 'react-redux';
 import TinyMCEInput from 'react-tinymce-input'
 import { Field, reduxForm } from 'redux-form';  // ES6
+import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
+import Checkbox from 'material-ui/Checkbox';
+import TextField from 'material-ui/TextField';
+import { updateArticle } from '../actions/articleActions';
+
+
 
 const TINYMCE_CONFIG = {
   'language'  : 'en',
@@ -31,21 +38,44 @@ export class UpdateArticle extends React.Component {
 		super(props);
 
 		this.state = {
-			value : "",
+			_id: '',
+			title: '',
+			content : '',
+			is_published: false,
+			isLoading: true,
+			author: this.props.authen.user.name
 		}
 		this.onChange = this.onChange.bind(this);
+		this.onSubmit = this.onSubmit.bind(this);
+		this.onNonContentChange = this.onNonContentChange.bind(this);
+		this.onCheckBoxChange = this.onCheckBoxChange.bind(this);
+
 	}
 
-	componentDidMount() {
+	componentWillMount() {
 		var id = this.props.match.params.id;
 		axios.get('http://localhost:3000/articles/post/' + id).then(res => {
-		this.setState({value: res.data.article.content, isLoading: false})
+		this.setState({content: res.data.article.content, _id:res.data.article._id,
+						title: res.data.article.title,	 isLoading: false})
 			});
 
 	}
 
 	  onChange(newValue) {
-	    this.setState({ value: newValue });
+	    this.setState({ content: newValue });
+	  }
+
+	  onNonContentChange(e){
+	  	 this.setState({ [e.target.name] : e.target.value});
+	  }
+
+	  onCheckBoxChange(){
+	  	this.setState({is_published: !this.state.is_published});
+	  }
+
+	  onSubmit(e){
+	  	e.preventDefault();
+	  	this.props.updateArticle(this.state);
 	  }
  
 
@@ -57,12 +87,22 @@ export class UpdateArticle extends React.Component {
    		
 		<div >
 
+		<div className = "update_settings">
+			<div className ="ui container segment ">
+			<Checkbox label="Is Publish At Update ? "  onCheck={this.onCheckBoxChange} />
+			 <TextField   hintText="Title of The Article" value={this.state.title}  name="title" onChange={this.onNonContentChange} />
+			</div>	
+		</div>
 
-		<h1> </h1>			
-				
-		<TinyMCEInput  value={this.state.value} tinymceConfig={TINYMCE_CONFIG} onChange={this.onChange} />
-			
+		<TinyMCEInput  value={this.state.content} tinymceConfig={TINYMCE_CONFIG} onChange={this.onChange} />
 
+
+		<RaisedButton
+          label="Submit"
+          className ="submitButton"
+          primary={true}
+          onTouchTap={this.onSubmit}
+        	/>  
 					
 		</div>				
 		
@@ -70,12 +110,10 @@ export class UpdateArticle extends React.Component {
   }
 }
 
-
 function mapStateToProps(state){
-	return {
-		artiklen: state.artiklen,
-		authen: state.authen		
-	};
+  return {
+    authen: state.authen
+  };
 }
 
-export default connect(null)(UpdateArticle);
+export default connect(mapStateToProps , {updateArticle} )(UpdateArticle);

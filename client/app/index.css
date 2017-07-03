@@ -32,6 +32,25 @@ main{
 	
 }
 
+.update_settings{
+	max-width: 500px;
+	margin: 20px;
+	display: inline-flex;
+}
+
+.submitButton{
+	width: 30%;
+	margin: 100px;
+}
+
+.checkMark{
+	color: #04EA2B;
+}
+
+.minusMark {
+	color: #EA4415;
+}
+
 .creatingButton{
 	margin-bottom: 50px;
 	margin-top: 100px;	
