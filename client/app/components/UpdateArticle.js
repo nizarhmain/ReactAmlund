@@ -44,14 +44,16 @@ export class UpdateArticle extends React.Component {
 			_id: '',
 			title: '',
 			content : '',
-			is_published: false,
+			is_published: true,
 			isLoading: true,
-			author: this.props.authen.user.name
+			author: this.props.authen.username,
+			modalOpen: false 
 		}
 		this.onChange = this.onChange.bind(this);
 		this.onSubmit = this.onSubmit.bind(this);
 		this.onNonContentChange = this.onNonContentChange.bind(this);
 		this.onCheckBoxChange = this.onCheckBoxChange.bind(this);
+		this.handleClose = this.handleClose.bind(this);
 
 	}
 
@@ -61,7 +63,6 @@ export class UpdateArticle extends React.Component {
 		this.setState({content: res.data.article.content, _id:res.data.article._id,
 						title: res.data.article.title,	 isLoading: false})
 			});
-
 	}
 
 	  onChange(newValue) {
@@ -78,8 +79,24 @@ export class UpdateArticle extends React.Component {
 
 	  onSubmit(e){
 	  	e.preventDefault();
-	  	this.props.updateArticle(this.state);
+	    this.setState({ modalOpen: true });
+	  	this.props.updateArticle(this.state).then( () => {
+					
+					this.props.addFlashMessage({ type: 'success', text: 'The article was successfully created'});
+			}, 
+				(err) => {
+						this.props.addFlashMessage({
+							type: 'error',
+							text: 'Der opstod en fejl,sørg for at du ikke forlader feltet Titel og indholds feltet tomt'
+						});
+				});
+;
 	  }
+
+	   handleClose(e){
+			this.setState({ modalOpen: false });
+			this.props.deleteFlashMessage();
+  		}
  
 
 
@@ -92,21 +109,32 @@ export class UpdateArticle extends React.Component {
 
 		<div className = "update_settings">
 			<div className ="ui container segment ">
-			<Checkbox label="Is Publish At Update ? "  onCheck={this.onCheckBoxChange} />
+			<Checkbox label="Is Publish At Update ? " checked={this.state.is_published} onCheck={this.onCheckBoxChange} />
 			 <TextField   hintText="Title of The Article" value={this.state.title}  name="title" onChange={this.onNonContentChange} />
 			</div>	
 		</div>
 
 		<TinyMCEInput  value={this.state.content} tinymceConfig={TINYMCE_CONFIG} onChange={this.onChange} />
 
+	<div className ="submitButton">
+      <Modal
+        trigger={<Button onClick={this.onSubmit} color='green'>Submit</Button>}
+        open={this.state.modalOpen}
+        onClose={this.handleClose}
+        basic
+        size='small'
 
-		<RaisedButton
-          label="Submit"
-          className ="submitButton"
-          primary={true}
-          onTouchTap={this.onSubmit}
-        	/>  
-					
+      >
+        <Header icon='browser' content={this.props.messages.text} />
+        <Modal.Actions>
+          <Button color='green' onClick={this.handleClose} inverted>
+            <Icon name='checkmark' /> Got it
+          </Button>
+        </Modal.Actions>
+      </Modal>
+      </div> 
+				
+
 		</div>				
 		
 		);
@@ -115,8 +143,9 @@ export class UpdateArticle extends React.Component {
 
 function mapStateToProps(state){
   return {
-    authen: state.authen
+    authen: state.authen,
+		messages: state.flashMessages
   };
 }
 
-export default connect(mapStateToProps , {updateArticle} )(UpdateArticle);
+export default connect(mapStateToProps , {updateArticle, addFlashMessage, deleteFlashMessage} )(UpdateArticle);

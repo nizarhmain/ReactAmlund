@@ -21,16 +21,20 @@ module.exports.authenticate = function(req, res, next) {
                 } else {
                   User.getUserById(decoded._doc._id, (err, user) => {
                        if(err) throw err;
-
-                       if(user){
+                       
+                       if(user.erAdmin){
                         // this is a valid user filter and output for the author thing
+                       console.log(user.erAdmin);
                         req.currentUser = {
                           'name' : user.name,
                           'email' : user.email,
-                          'username' : user.username
+                          'username' : user.username,
+                          'admin' : user.erAdmin
                         };
                         next();
-                       }
+                       } else{
+                           return res.sendStatus(400)
+                       }  
 
 
                    });

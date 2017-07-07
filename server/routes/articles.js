@@ -59,7 +59,7 @@ router.get('/published', function(req, res){
 		}
 		return res.status(200).json({articles: articles});
 	});	
-	}, 500);
+	}, 100);
 	
 });
 
@@ -83,7 +83,7 @@ router.get('/post/:id', function(req,res){
 			return res.sendStatus(400);
 		}
 	});       
-}, 500);
+}, 100);
  
 });
 
@@ -120,13 +120,22 @@ router.put('/post/update', authenticate.authenticate, function(req,res){
 	var updatedArticle = {};
 	if(article.title != null && article.title != ""){
 		updatedArticle.title = article.title;
+	} else {
+		return res.sendStatus(400);
 	}
+
 	if(article.is_published != null){
 		updatedArticle.is_published = article.is_published;
+	} else {
+		return res.sendStatus(400);
 	}
+
 	if(article.content != null && article.content != ""){
 		updatedArticle.content = article.content;
+	} else {
+		return res.sendStatus(400);
 	}
+	
 	updatedArticle.updated = new Date();
 	Article.update({_id: article._id}, updatedArticle, function(err,nbRows, raw){
 	if(err){

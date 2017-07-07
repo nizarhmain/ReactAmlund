@@ -2,12 +2,14 @@ import React from 'react';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
-import PropTypes from 'prop-types'; // react prop types are depecrated
 import CircularProgress from 'material-ui/CircularProgress';
 import { validateInput } from '../../../server/shared/validations/signup';
-import FlashMessagesList from './flash/FlashMessagesList';
+import {addFlashMessage, deleteFlashMessage } from '../actions/flashMessages';
+import PropTypes from 'prop-types'; // react prop types are depecrated
+import {connect} from 'react-redux';
+import FlashMessage from './flash/FlashMessage';
 
-export default class SignUp extends React.Component {
+class SignUp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -78,7 +80,9 @@ this.setState({
                         text: 'You signed up successfully. Welcome !'
                       });
                       
-                      this.context.router.history.replace('/privet');                          
+                      this.context.router.history.replace('/');      
+                      this.handleClose();
+                      this.props.deleteFlashMessage();                    
              },   
              // if we get an error back with errors with it with populate the state with the data            
             (err) => { 
@@ -143,7 +147,7 @@ this.setState({
 
              {this.state.isLoading && <CircularProgress />}
 
-             <FlashMessagesList />
+           <p>{this.props.messages.text}</p>  
 
 
         </Dialog>
@@ -157,11 +161,16 @@ this.setState({
 
 }
 
-SignUp.propTypes = {
-        userSignupRequest: PropTypes.func.isRequired,
-        addFlashMessage: PropTypes.func.isRequired
-    };
+function mapStateToProps(state){
+  return {
+		messages: state.flashMessages
+  };
+}
+
 
 SignUp.contextTypes = {
   router: PropTypes.object.isRequired
 };
+
+export default connect(mapStateToProps , { addFlashMessage, deleteFlashMessage} )(SignUp);
+

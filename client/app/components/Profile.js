@@ -23,10 +23,17 @@ class Profile extends React.Component {
       	<h2>Your Profile Settings : </h2>
     		<Paper style={style} zDepth={4} children={
     			    <List >
-					      <ListItem primaryText={this.props.authen.user.username} disabled={true} secondaryText="Username" /> 
-					      <ListItem primaryText={this.props.authen.user.email} disabled={true} secondaryText="Email"/>
-					      <ListItem primaryText={this.props.authen.user.name} disabled={true} secondaryText="Name"/> 
-					      <ListItem primaryText={this.props.authen.user._id} disabled={true} secondaryText="ID"/> 
+					      <ListItem primaryText={this.props.authen.name} disabled={true} secondaryText="Username" /> 
+					      <ListItem primaryText={this.props.authen.email} disabled={true} secondaryText="Email"/>
+					      <ListItem primaryText={this.props.authen.name} disabled={true} secondaryText="Name"/> 
+
+        {this.props.authen.admin ? (
+                <ListItem  disabled={true} secondaryText="You are an Administrator"/> 
+              ) : (
+                ""
+              )}
+
+
 					 </List> } 
 			  />
 	    			    

@@ -13,7 +13,10 @@ export default ( state = initialState, action = {}) => {
 		case 'SET_CURRENT_USER':
 			return {
 				isAuthenticated: !isEmpty(action.user),
-				user: action.user
+				username: action.user.username,
+				email: action.user.email,
+				name: action.user.name,
+				admin: action.user.erAdmin
 			};
 
 		default: return state;

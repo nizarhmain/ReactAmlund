@@ -19,7 +19,7 @@ class CreateArticle extends React.Component {
       title: '',
       cover: '',
       content: '',
-      author: this.props.authen.user.name,
+      author: this.props.authen.username,
       modalOpen: false 
     }
     this.onChange = this.onChange.bind(this);
@@ -72,7 +72,7 @@ class CreateArticle extends React.Component {
       <div>   
 
       <h1 className="ui header"> Skriv en Ny artikel</h1>
-      <h2 className ="ui header"> Written By : {this.props.authen.user.name } </h2>
+      <h2 className ="ui header"> Written By : {this.props.authen.username } </h2>
 
       <div className = "update_settings">
 			<div className ="ui container segment ">

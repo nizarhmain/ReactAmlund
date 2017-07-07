@@ -31,6 +31,8 @@ export function fetchPublishedArticles(){
 	}
 }
 
+
+
 export function setArticles(articles){
 	return {
 		type: 'SET_ARTICLES',
@@ -44,7 +46,6 @@ export function articleDeleted(articleId) {
     articleId
   }
 }
-
 
 
 export function deleteArticle(id){

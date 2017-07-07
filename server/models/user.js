@@ -7,9 +7,10 @@ const config = require('../config/database');
 const UserSchema = mongoose.Schema({
     name: { type: String, required: true},
     email: { type: String, required: true, unique: true},
-    username: { type: String, require: true, unique: true},
-    password: {type: String, require: true},
-    passwordConfirmation: {type: String, require: true},
+    username: { type: String, required: true, unique: true},
+    password: {type: String, required: true},
+    passwordConfirmation: {type: String, required: true},
+    erAdmin: {type: Boolean}
 });
 
 // UserSchema.plugin(uniqueValidator,  { message: 'Error, expected {PATH} to be unique.' });
