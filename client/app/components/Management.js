@@ -5,33 +5,36 @@ import { fetchArticles } from '../actions/articleActions';
 import RaisedButton from 'material-ui/RaisedButton';
 import generatePageIndex from '../utils/generatePageIndex';
 import { Link } from 'react-router-dom';
-
+import {Tabs, Tab} from 'material-ui/Tabs';
 
 class Management extends React.Component {
 
-
-
 componentWillMount() {
-  var page = this.props.match.params.page;
+  let page = this.props.match.params.page;
 	this.props.fetchArticles(page);	
 }
 
 
-componentDidUpdate() {
-
-  var page = this.props.match.params.page;
-	this.props.fetchArticles(page);	  
+onTouch(value){
+  this.props.fetchArticles(value);	
 }
+
 
   render() {
 
-    var values = generatePageIndex(this.props.pagination);
-			var indexes = (
+    let values = generatePageIndex(this.props.pagination);
+			let indexes = (
 				<div className ="pageIndex">
-						{values.map(value => <Link to ={"/management/" + value} key={value}> {value} </Link> )}		
+						{values.map( value => {
+              if(value == this.props.match.params.page){
+                return   <Link to ={"/management/" + value}  key={value}> <RaisedButton key={value} label={value} backgroundColor="#a4c639" labelColor="#ffffff" onTouchTap={() => this.onTouch(value)} /> </Link> 
+              } else {
+               return   <Link to ={"/management/" + value}  key={value}>  <RaisedButton  key={value} label={value} onTouchTap={() => this.onTouch(value)} /> </Link>
+              }
+              })
+            } 	
 				</div>
 			);
-
 
 
     return (
@@ -39,16 +42,16 @@ componentDidUpdate() {
       <div>
           <div className = "creatingButton">  
             <Link to ="/createarticle"><RaisedButton label="Skriv en ny artikel" backgroundColor="#a4c639" labelColor="#ffffff"/> </Link>
-          </div>
-      
+          </div>         
 
-           
+        
+          
+          
+
 
       	<ArticleList articles = {this.props.articles} />
 
-           {indexes}
-          
-          
+           {indexes}       
 
  	  </div>
     	

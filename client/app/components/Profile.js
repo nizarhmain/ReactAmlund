@@ -53,9 +53,5 @@ function mapStateToProps(state){
 }
 
 
-Profile.propTypes = {
-        authen: PropTypes.object.isRequired,
-}
-
 
 export default connect(mapStateToProps)(Profile);

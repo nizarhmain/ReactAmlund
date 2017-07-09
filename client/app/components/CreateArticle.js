@@ -2,14 +2,11 @@ import React from 'react';
 import TinyMCE from 'react-tinymce';
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton';
 import { connect } from 'react-redux';
 import { createArticle } from '../actions/articleActions';
-import Dialog from 'material-ui/Dialog';
-import FlashMessage from './flash/FlashMessage';
 import {addFlashMessage, deleteFlashMessage } from '../actions/flashMessages';
 import { Button, Header, Icon, Modal } from 'semantic-ui-react'
-import axios from 'axios'
+
 
 
 class CreateArticle extends React.Component {
@@ -23,7 +20,7 @@ class CreateArticle extends React.Component {
       content: '',
       author: this.props.authen.username,
       modalOpen: false 
-   }
+   };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.handleClose = this.handleClose.bind(this);
@@ -59,7 +56,7 @@ class CreateArticle extends React.Component {
   }
 
 
-  handleClose(e){
+  handleClose(){
   	this.setState({ modalOpen: false });
   	this.props.deleteFlashMessage();
   }

@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'; // react prop types are depecrated
 import { fetchPublishedArticles } from '../actions/articleActions';
 import generatePageIndex from '../utils/generatePageIndex';
 import { Link } from 'react-router-dom';
+import RaisedButton from 'material-ui/RaisedButton';
 
 
 
@@ -12,23 +13,29 @@ class Home extends React.Component {
 
 
 componentWillMount() {
-  var page = this.props.match.params.page;
+  let page = this.props.match.params.page;
 	this.props.fetchPublishedArticles(page);	
 }
 
 
-componentDidUpdate() {
-  var page = this.props.match.params.page;
-	this.props.fetchPublishedArticles(page);	
+onTouch(value){
+  this.props.fetchPublishedArticles(value);	
 }
 
 
   render() {
 
-	var values = generatePageIndex(this.props.pagination);
-			var indexes = (
+ let values = generatePageIndex(this.props.pagination);
+			let indexes = (
 				<div className ="pageIndex">
-						{values.map(value => <Link to ={"/home/" + value} key={value}> {value} </Link> )}		
+						{values.map( value => {
+              if(value == this.props.match.params.page){
+                return   <Link to ={"/management/" + value}  key={value} > <RaisedButton key={value} label={value} backgroundColor="#a4c639" labelColor="#ffffff" onTouchTap={() => this.onTouch(value)} /> </Link> 
+              } else {
+               return   <Link to ={"/management/" + value}  key={value}>  <RaisedButton  key={value} label={value} onTouchTap={() => this.onTouch(value)} /> </Link>
+              }
+              })
+            } 	
 				</div>
 			);
 

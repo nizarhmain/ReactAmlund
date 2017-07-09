@@ -1,6 +1,5 @@
 import React from 'react';
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
-import FlatButton from 'material-ui/FlatButton';
+import {Card, CardActions, CardHeader, CardMedia, CardTitle} from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
 import {connect} from 'react-redux';
 import { hideArticle, publishArticle, deleteArticle } from '../actions/articleActions';
@@ -28,11 +27,11 @@ constructor(props) {
 }
 
 
-onHide(e){
+onHide(){
   this.setState({isLoading: true});
-  console.log(this.state.isLoading);
+
   this.props.hideArticle(this.state.article._id).then(() => {
-  																																console.log("its hidden ");
+  																															
                                                                   this.setState({articleState: false, isLoading:false});
                                                                     
   																															
@@ -43,18 +42,18 @@ onHide(e){
      //this.setState({ is_published: false});			
 }
 
-onPublish(e){
+onPublish(){
     this.setState({isLoading: true});
-console.log(this.state.isLoading);
+
   this.props.publishArticle(this.state.article._id).then(() => {
-  																																console.log("its published ");
+  																															
                                                                   this.setState({articleState: true, isLoading:false});
                                                                    
                                                               },
                                                           (err) => {console.log("there was an error")});
 }
 
-onDelete(e){
+onDelete(){
   this.props.deleteArticle(this.state.article._id);
   
 }
@@ -62,8 +61,8 @@ onDelete(e){
 
 render(){
 
-    var date  = new Date(this.state.article.created);
-    var newDate = date.toLocaleDateString();
+    let date  = new Date(this.state.article.created);
+    let newDate = date.toLocaleDateString();
 
     return (
       <div className="article">

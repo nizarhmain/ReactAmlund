@@ -4,14 +4,12 @@ import axios from 'axios';
 export function createArticle(article){
 	return dispatch => {
 		return axios.post('http://localhost:3000/articles/post', article)
-		.then(res => console.log(res));
 	};
 }
 
 export function updateArticle(article){
 	return dispatch => {
 		return axios.put('http://localhost:3000/articles/post/update', article)
-		.then(res => console.log(res));
 	}
 }
 

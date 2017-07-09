@@ -7,7 +7,7 @@ import { validateInput } from '../../../server/shared/validations/signup';
 import {addFlashMessage, deleteFlashMessage } from '../actions/flashMessages';
 import PropTypes from 'prop-types'; // react prop types are depecrated
 import {connect} from 'react-redux';
-import FlashMessage from './flash/FlashMessage';
+
 
 class SignUp extends React.Component {
   constructor(props) {

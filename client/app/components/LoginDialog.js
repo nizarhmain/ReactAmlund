@@ -1,6 +1,5 @@
 import React from 'react';
 import Dialog from 'material-ui/Dialog';
-import {Tab} from 'material-ui/Tabs';
 import LoginDude from 'material-ui/svg-icons/action/perm-identity';
 import TextField from 'material-ui/TextField';
 import SignUp from './SignUp'
@@ -15,7 +14,6 @@ import { login } from '../actions/login';
 import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 import jwt from 'jsonwebtoken';
-import jwtDecode from 'jwt-decode';
 
 
 const customContentStyle = {

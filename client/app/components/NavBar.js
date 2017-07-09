@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types'; // react prop types are depecrated
 import LoginDialog from './LoginDialog';
-import MyDrawer from './Drawer';
 import FlatButton from 'material-ui/FlatButton'; 
 import { logout } from '../actions/login';
 
@@ -104,7 +103,7 @@ class NavBar extends React.Component {
 NavBar.propTypes = {
         authen: PropTypes.object.isRequired,
         logout: PropTypes.func.isRequired
-}
+};
 
 function mapStateToProps(state){
 	return {

@@ -1,15 +1,10 @@
 import React from 'react';
 import axios from 'axios';
-import CircularProgress from 'material-ui/CircularProgress';
 import {connect} from 'react-redux';
 import TinyMCEInput from 'react-tinymce-input'
-import { Field, reduxForm } from 'redux-form';  // ES6
-import FlatButton from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton';
 import Checkbox from 'material-ui/Checkbox';
 import TextField from 'material-ui/TextField';
 import { updateArticle } from '../actions/articleActions';
-import FlashMessage from './flash/FlashMessage';
 import {addFlashMessage, deleteFlashMessage } from '../actions/flashMessages';
 import { Button, Header, Icon, Modal } from 'semantic-ui-react'
 
@@ -48,7 +43,7 @@ export class UpdateArticle extends React.Component {
 			isLoading: true,
 			author: this.props.authen.username,
 			modalOpen: false 
-		}
+		};
 		this.onChange = this.onChange.bind(this);
 		this.onSubmit = this.onSubmit.bind(this);
 		this.onNonContentChange = this.onNonContentChange.bind(this);
@@ -90,10 +85,10 @@ export class UpdateArticle extends React.Component {
 							text: 'Der opstod en fejl,sørg for at du ikke forlader feltet Titel og indholds feltet tomt'
 						});
 				});
-;
+
 	  }
 
-	   handleClose(e){
+	   handleClose(){
 			this.setState({ modalOpen: false });
 			this.props.deleteFlashMessage();
   		}
