@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+var mongoosePaginate = require('mongoose-paginate');
 const config = require('../config/database');
 
 const ArticleSchema = mongoose.Schema({
@@ -12,6 +13,8 @@ const ArticleSchema = mongoose.Schema({
     read: { type: Number, default: 0 },
     likes: { type: Number, default: 0 }
 });
+
+ArticleSchema.plugin(mongoosePaginate);
 
 const Article = module.exports = mongoose.model('Article', ArticleSchema);
 

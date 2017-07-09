@@ -6,60 +6,56 @@ const User = require('../models/user');
 const config = require('../config/database');
 const authenticate = require('../middlewares/authenticate');
 
+
 // create an article
 router.post('/post', authenticate.authenticate , function(req,res){
-	
+
+	// so we need to make a count of all the articles, add 1 to it, and divide that number by the pagesize number
 	var article = req.body;
 	if (article.title == null || article.content == null || article.cover == null) {
 		return res.sendStatus(400);
 	}
 	// if everything goes well server side validation, initialize the article variable
-	let newArticle = new Article({
-		title: req.body.title,
-		cover: req.body.cover,
-		is_published: req.body.is_published,
-		content: req.body.content,
-		author: req.body.author
+
+	var newArticle = new Article({
+		title: article.title,
+		cover: article.cover,
+		is_published: article.is_published,
+		content: article.content,
+		author: article.author
 	});
+
 
 	Article.AddArticle(newArticle, function(err, article){
 		if(err){
 			return res.sendStatus(400);
 		} else {
-			res.json({success: true, msg: 'article successfully registered', user: req.currentUser });
+
+			return res.json({success: true, msg: 'article successfully registered', user: req.currentUser });
 		}
 	});
 });
 
 //get all the articles
-router.get('/all', function(req, res){
-	setTimeout(function() {
-	var query = Article.find();
-	query.sort('-created');
-	query.exec(function(err, articles){
-		if(err) throw err;
-		for(var articleKey in articles){
-			articles[articleKey].content = articles[articleKey].content.substr(0,10);
-		}
-		return res.status(200).json({articles: articles});
-	});	
-	}, 500);
+router.get('/all/:page', function(req, res){
+	
+	var page = req.params.page;
+	Article.paginate( Article.find().sort('-created') ,{page: page, limit: 8}, function(err, articles){
+		return res.status(200).json({articles: articles.docs, pages: articles.pages});
+	});
+
 	
 });
 
+
 // get the published articles 
-router.get('/published', function(req, res){
-	setTimeout(function() {
-	var query = Article.find({is_published: true});
-	query.sort('-created');
-	query.exec(function(err, articles){
-		if(err) throw err;
-		for(var articleKey in articles){
-			articles[articleKey].content = articles[articleKey].content.substr(0,400);
-		}
-		return res.status(200).json({articles: articles});
-	});	
-	}, 100);
+router.get('/published/:page', function(req, res){
+
+	var page = req.params.page;
+	Article.paginate( Article.find({is_published: true}).sort('-created') ,{page: page, limit: 8}, function(err, articles){
+		return res.status(200).json({articles: articles.docs, pages: articles.pages});
+	});
+
 	
 });
 
@@ -141,7 +137,7 @@ router.put('/post/update', authenticate.authenticate, function(req,res){
 	if(err){
 		    return res.sendStatus(400);
 		} else {
-			res.json({success: true, msg: 'article registered'});
+			return res.json({success: true, msg: 'article registered'});
 		}
 	});
   }

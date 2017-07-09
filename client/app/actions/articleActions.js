@@ -15,23 +15,34 @@ export function updateArticle(article){
 	}
 }
 
-export function fetchArticles(){
+export function fetchArticles(page){
 	return dispatch => {
-		fetch('http://localhost:3000/articles/all')
+		fetch('http://localhost:3000/articles/all/' + page)
 		.then(res => res.json())
-      	.then(data => dispatch(setArticles(data.articles)));
+      	.then((data) => { 
+				dispatch(setArticles(data.articles));
+				dispatch(setPage(data.pages));
+		});
 	}
 }
 
-export function fetchPublishedArticles(){
+export function fetchPublishedArticles(page){
 	return dispatch => {
-		fetch('http://localhost:3000/articles/published')
+		fetch('http://localhost:3000/articles/published/' + page)
 		.then(res => res.json())
-      	.then(data => dispatch(setArticles(data.articles)));
+      	.then((data) => { 
+				dispatch(setArticles(data.articles));
+				dispatch(setPage(data.pages));
+		});
 	}
 }
 
-
+export function setPage(pages){
+	return {
+		type: 'SET_PAGE',
+		pages
+	}
+}
 
 export function setArticles(articles){
 	return {
@@ -39,6 +50,7 @@ export function setArticles(articles){
 		articles
 	}
 }
+
 
 export function articleDeleted(articleId) {
   return {

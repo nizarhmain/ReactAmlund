@@ -9,6 +9,8 @@ import Dialog from 'material-ui/Dialog';
 import FlashMessage from './flash/FlashMessage';
 import {addFlashMessage, deleteFlashMessage } from '../actions/flashMessages';
 import { Button, Header, Icon, Modal } from 'semantic-ui-react'
+import axios from 'axios'
+
 
 class CreateArticle extends React.Component {
 
@@ -21,7 +23,7 @@ class CreateArticle extends React.Component {
       content: '',
       author: this.props.authen.username,
       modalOpen: false 
-    }
+   }
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.handleClose = this.handleClose.bind(this);
@@ -35,18 +37,21 @@ class CreateArticle extends React.Component {
   onSubmit(e){
      e.preventDefault();
      this.setState({ modalOpen: true });
+     
      this.props.createArticle(this.state).then( () => {
             this.props.addFlashMessage({
                         type: 'success',
                         text: 'The article was successfully created!'
                       });
+                      
            },
            (err) => {
            		this.props.addFlashMessage({
                         type: 'error',
                         text: 'OOPS there was an error !'
                       });
-           });
+           })
+       
   }
 
   handleEditorChange(e){

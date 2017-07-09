@@ -9,6 +9,9 @@ import ReadArticle from './components/ReadArticle';
 import UpdateArticle from './components/UpdateArticle';
 import Home from './components/Home';
 import requireAuth from './utils/requireAuth';
+import requireAdmin from './utils/requireAdmin';
+
+
 
 export default class AppLayout extends React.Component {
 
@@ -23,10 +26,10 @@ export default class AppLayout extends React.Component {
 					<NavBar />
 		   
 		  <main>
-			  <Route exact path="/" component={Home} />
-			  <Route path="/createarticle" component={requireAuth(CreateArticle)} />
-			  <Route path="/management" component={requireAuth(Management)} />
-			  <Route path="/profile" component={requireAuth(Profile)} />     
+			  <Route path="/home/:page" component={Home} />
+			  <Route exact path="/createarticle" component={requireAdmin(CreateArticle)} />
+			  <Route path="/management/:page" component={requireAdmin(Management)} />
+			  <Route exact path="/profile" component={requireAuth(Profile)} />     
 			  <Route path="/article/:id" component={ReadArticle} />      
 			  <Route path="/updatearticle/:id" component={requireAuth(UpdateArticle)} />   
 		   </main>

@@ -103,7 +103,14 @@ main{
 	margin:50px;
 }
 
+.pageIndex{
+	margin: 50px;
+	display: inline-flex;
+}
 
+.pageIndex a{
+	margin: 10px;
+}
 
 
 

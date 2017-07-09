@@ -2,6 +2,8 @@ import React from 'react';
 import Article from './Article';
 import {connect} from 'react-redux';
 import CircularProgress from 'material-ui/CircularProgress';
+import { Link } from 'react-router-dom';
+
 
 
 class ArticleList extends React.Component {
@@ -20,11 +22,16 @@ class ArticleList extends React.Component {
 				</div>
 			);
 
+		
+
     return (
       
       <div>
       	
         { this.props.articles.length === 0 ? emptyMessage : articlesList }  
+
+
+				      
 
       </div>
     );

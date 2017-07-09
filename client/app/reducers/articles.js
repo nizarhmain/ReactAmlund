@@ -4,7 +4,7 @@ export default function articles(state = [], action = {}){
 
 		case 'SET_ARTICLES':
 			return action.articles;
-
+			
 		case 'ARTICLE_DELETED':
       		return state.filter(article => article._id !== action.articleId);
 

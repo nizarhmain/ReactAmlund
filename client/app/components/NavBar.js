@@ -31,7 +31,7 @@ class NavBar extends React.Component {
         <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css" />
         {/* Modernizr */}
         <header>
-           <Link className="logo" to ="/">Amlund.dk</Link>
+           <Link className="logo" to ="/home/1">Amlund.dk</Link>
           <nav id="cd-top-nav">
             <ul>
             {this.props.authen.isAuthenticated && <li id="ProfileLink"><Link to ="/profile">Profilen</Link></li>}
@@ -73,8 +73,8 @@ class NavBar extends React.Component {
             </li> {/* item-has-children */}
           </ul> {/* cd-navigation */}
           <ul className="cd-navigation cd-single-item-wrapper">
-          {this.props.authen.isAuthenticated && <li><Link to ="/management">Management</Link></li>}
-            <li><Link to ="/">Home</Link></li>
+          {this.props.authen.admin && <li><Link to ="/management/1">Management</Link></li>}
+            <li><Link to ="/home/1">Home</Link></li>
             <li><a href="#0">Tour</a></li>
             <li><a href="#0">Login</a></li>
             <li><a href="#0">Register</a></li>

@@ -69,7 +69,7 @@ render(){
       <div className="article">
    <Card >
     
-    {this.props.authen.isAuthenticated ?
+    {this.props.authen.admin ?
     <CardHeader
       title={this.state.article.title}
       subtitle={newDate}
@@ -88,7 +88,7 @@ render(){
     <CardActions>
     <Link to ={"/article/" + this.state.article._id} ><RaisedButton label="Læs mere" /> </Link> 
     
-    {this.props.authen.isAuthenticated ?
+    {this.props.authen.admin ?
 
     <IconMenu
               iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
