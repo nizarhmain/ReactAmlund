@@ -96,8 +96,8 @@ render(){
               className="article_settings"
             >
       {this.state.articleState ? <MenuItem primaryText="Skjule" onTouchTap={this.onHide} style={{color:'grey'}}/> : <MenuItem primaryText="Udgive" onTouchTap={this.onPublish} style={{color:'green'}}/> }     
-      <Link to ={"/updatearticle/" + this.state.article._id} >  <MenuItem primaryText="Opdatere" style={{color:'#9FA9FF'}}/></Link> 
-      <MenuItem primaryText="Slette" onTouchTap={this.onDelete} style={{color:'red'}}/>
+      <Link to ={"/updatearticle/" + this.state.article._id} >  <MenuItem primaryText="Opdater" style={{color:'#9FA9FF'}}/></Link> 
+      <MenuItem primaryText="Slet" onTouchTap={this.onDelete} style={{color:'red'}}/>
     </IconMenu>
 
      : ""}

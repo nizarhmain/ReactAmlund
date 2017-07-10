@@ -27,7 +27,7 @@ export default class AppLayout extends React.Component {
 		   
 			 <main>
 			 <Switch>
-					
+			 			<Route exact path="/" component={Home} />
 						<Route path="/home/:page" component={Home} />
 						<Route exact path="/createarticle" component={requireAdmin(CreateArticle)} />
 						<Route path="/management/:page" component={requireAdmin(Management)} />

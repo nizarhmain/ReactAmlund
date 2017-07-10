@@ -69,10 +69,10 @@ router.get('/published/:page', function(req, res){
 
 // get article by id and read it 
 router.get('/post/:id', function(req,res){
-	setTimeout(function() {
+
 	var id = req.params.id || '';
 	if(id == ''){
-		return res.sendStatus(400);
+		return res.sendStatus(404);
 	}
 
 	var query = Article.findOne({_id: id, is_published: true});
@@ -83,10 +83,9 @@ router.get('/post/:id', function(req,res){
 				return res.status(200).json({article: article});
 			});
 		} else {
-			return res.sendStatus(400);
+			return res.sendStatus(404);
 		}
 	});       
-}, 100);
  
 });
 

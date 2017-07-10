@@ -30,7 +30,8 @@ class NavBar extends React.Component {
         <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css" />
         {/* Modernizr */}
         <header>
-           <Link className="logo" to ="/home/1">Amlund.dk</Link>
+           <Link className="logo" to ="/home/1">Amlund.dk        <img src="https://media.giphy.com/media/eWtOasZqNnOog/giphy.gif" alt="Smiley face" height="60px" width="80px" /> </Link>
+          
           <nav id="cd-top-nav">
             <ul>
             {this.props.authen.isAuthenticated && <li id="ProfileLink"><Link to ="/profile">Profilen</Link></li>}

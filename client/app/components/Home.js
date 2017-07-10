@@ -25,6 +25,9 @@ constructor(props){
 
 componentWillMount() {
   let page = this.props.match.params.page;
+  if( page == null) {
+    page = 1
+  }
 	this.props.fetchPublishedArticles(page).then( () =>  this.setState({ pages : generateNewIndexes(page, this.props.pagination.pages) }),
             (err) => {  this.setState({ notFound : true })  }
 
