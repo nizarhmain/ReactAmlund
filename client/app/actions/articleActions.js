@@ -15,32 +15,34 @@ export function updateArticle(article){
 
 export function fetchArticles(page){
 	return dispatch => {
-		fetch('http://localhost:3000/articles/all/' + page)
+		return fetch('http://localhost:3000/articles/all/' + page)
 		.then(res => res.json())
       	.then((data) => { 
 				dispatch(setArticles(data.articles));
-				dispatch(setPage(data.pages));
+				dispatch(setPages(data.pages, page));
 		});
 	}
 }
 
 export function fetchPublishedArticles(page){
 	return dispatch => {
-		fetch('http://localhost:3000/articles/published/' + page)
+		return fetch('http://localhost:3000/articles/published/' + page)
 		.then(res => res.json())
       	.then((data) => { 
 				dispatch(setArticles(data.articles));
-				dispatch(setPage(data.pages));
+				dispatch(setPages(data.pages, page));
 		});
 	}
 }
 
-export function setPage(pages){
+export function setPages(pages, page){
 	return {
-		type: 'SET_PAGE',
-		pages
+		type: 'SET_PAGES',
+		pages,
+		page
 	}
 }
+
 
 export function setArticles(articles){
 	return {

@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const passport = require('passport');
 const Article = require('../models/article');
-const User = require('../models/user');
 const config = require('../config/database');
 const authenticate = require('../middlewares/authenticate');
 
@@ -31,7 +30,7 @@ router.post('/post', authenticate.authenticate , function(req,res){
 			return res.sendStatus(400);
 		} else {
 
-			return res.json({success: true, msg: 'article successfully registered', user: req.currentUser });
+			return res.sendStatus(200);
 		}
 	});
 });
@@ -40,10 +39,14 @@ router.post('/post', authenticate.authenticate , function(req,res){
 router.get('/all/:page', function(req, res){
 	
 	var page = req.params.page;
+	if(page > 0 && page < 5000) {
 	Article.paginate( Article.find().sort('-created') ,{page: page, limit: 8}, function(err, articles){
 		return res.status(200).json({articles: articles.docs, pages: articles.pages});
 	});
 
+	} else {
+		return res.sendStatus(404);
+	}
 	
 });
 
@@ -52,10 +55,15 @@ router.get('/all/:page', function(req, res){
 router.get('/published/:page', function(req, res){
 
 	var page = req.params.page;
+	if(page > 0 && page < 5000) {
 	Article.paginate( Article.find({is_published: true}).sort('-created') ,{page: page, limit: 8}, function(err, articles){
 		return res.status(200).json({articles: articles.docs, pages: articles.pages});
 	});
 
+	} else {
+		return res.sendStatus(404);
+	}
+	
 	
 });
 
@@ -75,7 +83,6 @@ router.get('/post/:id', function(req,res){
 				return res.status(200).json({article: article});
 			});
 		} else {
-			console.log("the article doesn't exist, sorry, please don't hack me");
 			return res.sendStatus(400);
 		}
 	});       
@@ -181,7 +188,6 @@ router.delete('/post/:id', authenticate.authenticate, function(req, res){
 	var query = Article.findOne({_id: id});
 	query.exec(function(err, result){
 		if(err){
-			console.log(err);
 			return res.sendStatus(400);
 		}
 		if(result != null) {

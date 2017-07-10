@@ -1,9 +1,10 @@
 import React from 'react';
 import ArticleList from './ArticleList';
 import { connect } from 'react-redux';
+import NotFound from './NotFound';
 import PropTypes from 'prop-types'; // react prop types are depecrated
 import { fetchPublishedArticles } from '../actions/articleActions';
-import generatePageIndex from '../utils/generatePageIndex';
+import {generatePageIndex, generateNewIndexes } from '../utils/generatePageIndex';
 import { Link } from 'react-router-dom';
 import RaisedButton from 'material-ui/RaisedButton';
 
@@ -11,16 +12,35 @@ import RaisedButton from 'material-ui/RaisedButton';
 
 class Home extends React.Component {
 
+constructor(props){
+    super(props);
+      this.state = {  
+        pages : generatePageIndex(props.pagination.pages),
+        currentPage: props.pagination.currentPage,
+        notFound: false
+      }
+    
+}
+
 
 componentWillMount() {
   let page = this.props.match.params.page;
-	this.props.fetchPublishedArticles(page);	
+	this.props.fetchPublishedArticles(page).then( () =>  this.setState({ pages : generateNewIndexes(page, this.props.pagination.pages) }),
+            (err) => {  this.setState({ notFound : true })  }
+
+  ) ;
 }
 
 
 onTouch(value){
   this.props.fetchPublishedArticles(value);	
+    if(this.props.pagination.pages == value ){
+      console.log("we're at the end");
+    } else {
+  this.setState({ pages : generateNewIndexes(value, this.props.pagination.pages) });
+    }
 }
+
 
 
   render() {
@@ -28,11 +48,11 @@ onTouch(value){
  let values = generatePageIndex(this.props.pagination);
 			let indexes = (
 				<div className ="pageIndex">
-						{values.map( value => {
-              if(value == this.props.match.params.page){
-                return   <Link to ={"/management/" + value}  key={value} > <RaisedButton key={value} label={value} backgroundColor="#a4c639" labelColor="#ffffff" onTouchTap={() => this.onTouch(value)} /> </Link> 
+						{this.state.pages.map( value => {
+              if(value == this.props.pagination.currentPage){
+                return   <Link to ={"/home/" + value}  key={value} > <RaisedButton key={value} label={value} backgroundColor="#a4c639" labelColor="#ffffff" onTouchTap={() => this.onTouch(value)} /> </Link> 
               } else {
-               return   <Link to ={"/management/" + value}  key={value}>  <RaisedButton  key={value} label={value} onTouchTap={() => this.onTouch(value)} /> </Link>
+               return   <Link to ={"/home/" + value}  key={value}>  <RaisedButton  key={value} label={value} onTouchTap={() => this.onTouch(value)} /> </Link>
               }
               })
             } 	
@@ -42,9 +62,15 @@ onTouch(value){
 
     return (
       <div> 
-    	<ArticleList articles = {this.props.articles} />
-      
-                   {indexes}
+
+      {this.state.notFound ? <NotFound/> : 
+      <div>
+          <ArticleList articles = {this.props.articles} />
+          
+                      {indexes}
+      </div>
+      }
+    	
               
       </div>
     );
@@ -55,7 +81,6 @@ onTouch(value){
 
 function mapStateToProps(state){
   return {
-    authen: state.authen,
     articles: state.articles,
     pagination: state.pagination
 

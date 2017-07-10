@@ -24,7 +24,7 @@ require('./index.css');
 
 const muiTheme = getMuiTheme({
   palette: {
-    primary1Color: cyan500,
+    primary1Color: '#a4c639',
     textColor: darkBlack,
   },
 });

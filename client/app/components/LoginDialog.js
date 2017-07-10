@@ -21,6 +21,9 @@ const customContentStyle = {
 	maxWidth: 'none',
 };
 const customButtonStyle = {
+				
+					backgroundColor: "#a4c639"
+
 };
 const boutons = {
 	textAlign: 'center',
@@ -83,7 +86,7 @@ export class LoginDialog extends React.Component {
 												setAuthorizationToken(response.data.token);						
 												const decodedToken = jwt.decode(response.data.token);
 												this.props.setCurrentUser(decodedToken._doc);
-												this.context.router.history.replace('/');     
+												this.context.router.history.replace('/home/1');     
 											}
 										},
 
@@ -114,6 +117,7 @@ export class LoginDialog extends React.Component {
 					buttonStyle={customButtonStyle}
 					keyboardFocused={true}
 					onTouchTap={this.onSubmit}
+					style = {{ marginBottom: '10px'}}
 				/>,
 
 			 <SignUp userSignupRequest={userSignupRequest} addFlashMessage = {addFlashMessage} />,
@@ -128,7 +132,7 @@ export class LoginDialog extends React.Component {
 					title="Login"
 					actions={actions}
 					actionsContainerStyle={boutons}
-					 contentStyle={customContentStyle}
+					contentStyle={customContentStyle}
 					modal={false}
 					open={this.state.open}
 					onRequestClose={this.handleClose}

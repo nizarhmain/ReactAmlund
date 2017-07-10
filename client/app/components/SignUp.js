@@ -1,6 +1,6 @@
 import React from 'react';
 import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import CircularProgress from 'material-ui/CircularProgress';
 import { validateInput } from '../../../server/shared/validations/signup';
@@ -80,7 +80,7 @@ this.setState({
                         text: 'You signed up successfully. Welcome !'
                       });
                       
-                      this.context.router.history.replace('/');      
+                      this.context.router.history.replace('/home/1');      
                       this.handleClose();
                       this.props.deleteFlashMessage();                    
              },   
@@ -97,14 +97,17 @@ this.setState({
     const { errors } = this.state;
 
     const actions = [
-      <FlatButton
+      <RaisedButton
         label="Cancel"
         primary={true}
+        backgroundColor="#a4c639" 
         onTouchTap={this.handleClose}
+        style = {{margin: '10px'}}
       />,
-      <FlatButton
+      <RaisedButton
         label="Submit"
         primary={true}
+        backgroundColor="#a4c639" 
         keyboardFocused={true}
         onTouchTap={this.onSubmit}
         disabled = {this.state.isLoading}
@@ -113,7 +116,7 @@ this.setState({
 
     return (
       <div>
-        <FlatButton label="Sign Up !" onTouchTap={this.handleOpen} />
+        <RaisedButton label="Sign Up !" onTouchTap={this.handleOpen} />
         <Dialog
           title="Sign Up your account "
           actions={actions}
