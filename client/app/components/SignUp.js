@@ -3,7 +3,7 @@ import Dialog from 'material-ui/Dialog';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import CircularProgress from 'material-ui/CircularProgress';
-import { validateInput } from '../../../server/shared/validations/signup';
+import { validateInput } from '../utils/signup';
 import {addFlashMessage, deleteFlashMessage } from '../actions/flashMessages';
 import PropTypes from 'prop-types'; // react prop types are depecrated
 import {connect} from 'react-redux';

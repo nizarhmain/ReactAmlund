@@ -7,8 +7,8 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
   entry: './app/App.js',
   output: {
-    path : path.resolve(__dirname, 'dist'),
-    filename: 'index_bundle.js',
+    path : path.resolve(__dirname, '../server/public'),
+    filename: 'bundle.js',
     publicPath: '/'
   },
     module: {
@@ -18,6 +18,7 @@ module.exports = {
         { test: /\.(png|woff|woff2|eot|ttf|svg)$/, loader: 'url-loader?limit=100000' }
       ]
     },
+    
     devServer: {
     historyApiFallback: true,
     },

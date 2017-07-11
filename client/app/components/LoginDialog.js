@@ -7,7 +7,7 @@ import PropTypes from 'prop-types'; // react prop types are depecrated
 import {connect} from 'react-redux';
 import {userSignupRequest } from '../actions/signupActions';
 import {addFlashMessage } from '../actions/flashMessages';
-import { validateInput } from '../../../server/shared/validations/login';
+import { validateInput } from '../utils/login';
 import setAuthorizationToken from '../utils/setAuthorizationToken';
 import { setCurrentUser } from '../actions/login';
 import { login } from '../actions/login';
