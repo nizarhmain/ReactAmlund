@@ -50,7 +50,7 @@ app.use('/articles', articles);
 
 // index route
 app.get('/', function(req, res){
-    res.send('Invalid endpoint');
+   res.sendFile(path.join(__dirname, 'public/index.html'));
 });
 
 app.get('*', function(req, res){
